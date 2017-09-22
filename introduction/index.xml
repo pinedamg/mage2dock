@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Introductions on Laradock</title>
+    <link>http://laradock.io/introduction.html</link>
+    <description>Recent content in Introductions on Laradock</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://laradock.io/introduction/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introduction</title>
+      <link>http://laradock.io/introduction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://laradock.io/introduction/</guid>
+      <description>A full PHP development environment for Docker.
+Includes pre-packaged Docker Images, all pre-configured to provide a wonderful PHP development environment.
+Laradock is well known in the Laravel community, as the project started with single focus on running Laravel projects on Docker. Later and due to the large adoption from the PHP community, it started supporting other PHP projects like Symfony, CodeIgniter, WordPress, Drupal&amp;hellip;
+Quick Overview Let&amp;rsquo;s see how easy it is to install NGINX, PHP, Composer, MySQL, Redis and Beanstalkd:</description>
+    </item>
+    
+  </channel>
+</rss>
