@@ -12,6 +12,7 @@ services:
 ### Workspace Utilities Container ###########################
 
     workspace:
+      container_name: ${APPLICATION_NAME}_workspace
       build:
         context: ./workspace
         args:
@@ -60,6 +61,7 @@ services:
 ### PHP-FPM Container #######################################
 
     php-fpm:
+      container_name: ${APPLICATION_NAME}_php
       build:
         context: ./php-fpm
         args:
@@ -117,6 +119,7 @@ services:
 ### NGINX Server Container ##################################
 
     nginx:
+      container_name: ${APPLICATION_NAME}_nginx
       build:
         context: ./nginx
         args:
@@ -151,6 +154,7 @@ services:
 ### Apache Server Container #################################
 
     apache2:
+      container_name: ${APPLICATION_NAME}_apache
       build:
         context: ./apache2
         args:
@@ -202,6 +206,7 @@ services:
 ### MySQL Container #########################################
 
     mysql:
+      container_name: ${APPLICATION_NAME}_mysql
       build:
         context: ./mysql
         args:
@@ -223,6 +228,7 @@ services:
 ### Percona Container #########################################
 
     percona:
+      container_name: ${APPLICATION_NAME}_percona
       build:
         context: ./percona
       environment:

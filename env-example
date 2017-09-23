@@ -2,15 +2,19 @@
 # General Setup
 ############################
 
+### Application Name
+# It will used to name the containers
+APPLICATION_NAME=example
+
 ### Application Path
 # Point to your application code, will be available at `/var/www`.
 
-APPLICATION=../
+APPLICATION=../code
 
 ### Data Path:
 # For all storage systems.
 
-DATA_SAVE_PATH=~/.laradock/data
+DATA_SAVE_PATH=../data
 
 ### PHP version
 # Applies to the Workspace and PHP-FPM containers (Does not apply to HHVM)
@@ -29,21 +33,21 @@ PHP_INTERPRETER=php-fpm
 
 ### WORKSPACE ##########################################################################################################
 
-WORKSPACE_INSTALL_XDEBUG=false
+WORKSPACE_INSTALL_XDEBUG=true
 WORKSPACE_INSTALL_SOAP=false
 WORKSPACE_INSTALL_MONGO=false
 WORKSPACE_INSTALL_PHPREDIS=false
 WORKSPACE_INSTALL_MSSQL=false
-WORKSPACE_INSTALL_NODE=false
+WORKSPACE_INSTALL_NODE=true
 WORKSPACE_INSTALL_YARN=false
 WORKSPACE_INSTALL_DRUSH=false
 WORKSPACE_INSTALL_DRUPAL_CONSOLE=false
 WORKSPACE_INSTALL_AEROSPIKE=false
 WORKSPACE_INSTALL_V8JS=false
-WORKSPACE_COMPOSER_GLOBAL_INSTALL=false
+WORKSPACE_COMPOSER_GLOBAL_INSTALL=true
 WORKSPACE_INSTALL_WORKSPACE_SSH=false
 WORKSPACE_INSTALL_LARAVEL_ENVOY=false
-WORKSPACE_INSTALL_LARAVEL_INSTALLER=false
+WORKSPACE_INSTALL_LARAVEL_INSTALLER=true
 WORKSPACE_INSTALL_DEPLOYER=false
 WORKSPACE_INSTALL_LINUXBREW=false
 WORKSPACE_INSTALL_MC=false
@@ -60,7 +64,7 @@ WORKSPACE_SSH_PORT=2222
 
 ### PHP_FPM ############################################################################################################
 
-PHP_FPM_INSTALL_XDEBUG=false
+PHP_FPM_INSTALL_XDEBUG=true
 PHP_FPM_INSTALL_MONGO=false
 PHP_FPM_INSTALL_MSSQL=false
 PHP_FPM_INSTALL_SOAP=false
@@ -104,9 +108,9 @@ APACHE_PHP_UPSTREAM_TIMEOUT=60
 MYSQL_VERSION=8.0
 MYSQL_DATABASE=default
 MYSQL_USER=default
-MYSQL_PASSWORD=secret
+MYSQL_PASSWORD=qwe123
 MYSQL_PORT=3306
-MYSQL_ROOT_PASSWORD=root
+MYSQL_ROOT_PASSWORD=qwe123
 MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 ### REDIS ##############################################################################################################
@@ -117,9 +121,9 @@ REDIS_PORT=6379
 
 PERCONA_DATABASE=homestead
 PERCONA_USER=homestead
-PERCONA_PASSWORD=secret
+PERCONA_PASSWORD=qwe123
 PERCONA_PORT=3306
-PERCONA_ROOT_PASSWORD=root
+PERCONA_ROOT_PASSWORD=qwe123
 PERCONA_ENTRYPOINT_INITDB=./percona/docker-entrypoint-initdb.d
 
 ### MSSQL ##############################################################################################################
