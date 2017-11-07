@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# @TODO add XDEBUG CLI support
+
 # Colors used for status updates
 ESC_SEQ="\x1b["
 COL_RESET=$ESC_SEQ"39;49;00m"
@@ -52,6 +54,9 @@ alias cls="clear && ls"
 alias code="cd /var/www"
 alias ea="vi ~/aliases"
 
+alias chowndefault="chown -R laradock:www-data ."
+alias chmodlaravel="chmod -R 0777 storage/ bootstrap/cache/"
+
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
 alias grep='grep --color=auto'
@@ -60,9 +65,13 @@ alias egrep='egrep --color=auto'
 
 alias art="php artisan"
 alias artisan="php artisan"
+alias cup="composer up"
+alias creq="composer require"
+alias creqdev="composer require --dev"
 alias cdump="composer dump-autoload -o"
 alias composer:dump="composer dump-autoload -o"
 alias db:reset="php artisan migrate:reset && php artisan migrate --seed"
+alias db:rollb="php artisan migrate:rollback"
 alias migrate="php artisan migrate"
 alias seed="php artisan:seed"
 

@@ -140,6 +140,9 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 # ADD for REMOTE debugging
 COPY ./xdebug.ini /etc/php/7.1/cli/conf.d/xdebug.ini
 
+# Add Remote Host Dinamic IP
+RUN echo "xdebug.remote_host=$(/sbin/ip route|awk '/default/ { print $3 }')" >> /etc/php/7.1/cli/conf.d/xdebug.ini
+
 #####################################
 # Blackfire:
 #####################################
