@@ -54,8 +54,8 @@ alias cls="clear && ls"
 alias code="cd /var/www"
 alias ea="vi ~/aliases"
 
-alias chowndefault="chown -R laradock:www-data ."
-alias chmodlaravel="chmod -R 0777 storage/ bootstrap/cache/"
+alias chowndefault="chown -R mage2dock:www-data ."
+alias chmodmagento="chmod -R 0777 storage/ bootstrap/cache/"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.

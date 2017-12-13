@@ -7,14 +7,14 @@ weight: 7
 
 ## Have a Question
 
-If you have questions about how to use Laradock, please direct your questions to the discussion on [Gitter](https://gitter.im/Laradock/laradock). If you believe your question could help others, then consider opening an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Question`) And you can still seek help on Gitter for it.
+If you have questions about how to use Mage2dock, please direct your questions to the discussion on [Gitter](https://gitter.im/Laradock/mage2dock). If you believe your question could help others, then consider opening an [Issue](https://github.com/mage2dock/mage2dock/issues) (it will be labeled as `Question`) And you can still seek help on Gitter for it.
 
 
 
 ## Found an Issue
 
 If have an issue or you found a typo in the documentation, you can help us by
-opnening an [Issue](https://github.com/laradock/laradock/issues).
+opnening an [Issue](https://github.com/mage2dock/mage2dock/issues).
 
 **Steps to do before opening an Issue:**
 
@@ -30,14 +30,14 @@ features, by not reporting duplicate issues.*
 
 
 ## Want a Feature
-You can request a new feature by submitting an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Feature Suggestion`). If you would like to implement a new feature then consider submitting a Pull Request yourself.
+You can request a new feature by submitting an [Issue](https://github.com/mage2dock/mage2dock/issues) (it will be labeled as `Feature Suggestion`). If you would like to implement a new feature then consider submitting a Pull Request yourself.
 
 
 
 
 ## Update the Documentation (Site)
 
-Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Material Docs theme](http://themes.gohugo.io/theme/material-docs/). You might need to check their docs quickly.
+Mage2dock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Material Docs theme](http://themes.gohugo.io/theme/material-docs/). You might need to check their docs quickly.
 
 Go the `DOCUMENTATION/content` and search for the markdown file you want to edit
 
@@ -45,7 +45,7 @@ Note: Every folder represents a section in the sidebar "Menu". And every page an
 
 To update the sidebar or add a new section to it, you can edit this `DOCUMENTATION/config.toml` toml file.
 
-> The site will be auto-generated in the `docs/` folder by [Travis CI](https://travis-ci.org/laradock/laradock/).
+> The site will be auto-generated in the `docs/` folder by [Travis CI](https://travis-ci.org/mage2dock/mage2dock/).
 
 
 
@@ -100,13 +100,13 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Search for the image in the [Docker Hub](https://hub.docker.com/search/) and find the source..
 
-*Most of the image in Laradock are offical images, these projects live in other repositories and maintainer by other orgnizations.*
+*Most of the image in Mage2dock are offical images, these projects live in other repositories and maintainer by other orgnizations.*
 
-**Note:** Laradock has two base images for (`Workspace` and `php-fpm`, mainly made to speed up the build time on your machine.
+**Note:** Mage2dock has two base images for (`Workspace` and `php-fpm`, mainly made to speed up the build time on your machine.
 
 * Find the dockerfiles, edit them and submit a Pull Request.
 
-* When updating a Laradock base image (`Workspace` or `php-fpm`), ask a project maintainer "Admin" to build a new image after your PR is merged.
+* When updating a Mage2dock base image (`Workspace` or `php-fpm`), ask a project maintainer "Admin" to build a new image after your PR is merged.
 
 **Note:** after the base image is updated, every dockerfile that uses that image, needs to update his base image tag to get the updated code.
 
@@ -140,7 +140,7 @@ Always Test everything and make sure its working:
 ### 2. Submitting a PR
 Consider the following guidelines:
 
-* Search [GitHub](https://github.com/laradock/laradock/pulls) for an open or closed Pull Request that relates to your submission. You don't want to duplicate efforts.
+* Search [GitHub](https://github.com/mage2dock/mage2dock/pulls) for an open or closed Pull Request that relates to your submission. You don't want to duplicate efforts.
 
 * Make your changes in a new git branch:
 
@@ -155,7 +155,7 @@ Consider the following guidelines:
     git push origin my-fix-branch
     ```
 
-* In GitHub, send a pull request to `laradock:master`.
+* In GitHub, send a pull request to `mage2dock:master`.
 * If we suggest changes then:
   * Make the required updates.
   * Commit your changes to your branch (e.g. `my-fix-branch`).

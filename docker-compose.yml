@@ -30,8 +30,8 @@ services:
           - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
           - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
-          - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
-          - INSTALL_LARAVEL_INSTALLER=${WORKSPACE_INSTALL_LARAVEL_INSTALLER}
+          - INSTALL_MAGENTO_ENVOY=${WORKSPACE_INSTALL_MAGENTO_ENVOY}
+          - INSTALL_MAGENTO_INSTALLER=${WORKSPACE_INSTALL_MAGENTO_INSTALLER}
           - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_DEPLOYER}
           - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LINUXBREW}
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
@@ -136,7 +136,8 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
+        frontend:
+          ipv4_address: "${}1"
         - backend
 
 ### Blackfire Container #################################
@@ -497,7 +498,7 @@ services:
         - elasticsearch-data:/usr/share/elasticsearch/data
         - elasticsearch-plugins:/usr/share/elasticsearch/plugins
       environment:
-        - cluster.name=laradock-cluster
+        - cluster.name=mage2dock-cluster
         - bootstrap.memory_lock=true
         - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       ulimits:
@@ -630,14 +631,14 @@ services:
         - frontend
         - backend
 
-### Laravel Echo Server #######################################
-    laravel-echo-server:
+### Magento Echo Server #######################################
+    magento-echo-server:
       build:
-        context: ./laravel-echo-server
+        context: ./magento-echo-server
       volumes:
-        - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
+        - ./magento-echo-server/magento-echo-server.json:/app/magento-echo-server.json:ro
       ports:
-        - "${LARAVEL_ECHO_SERVER_PORT}:6001"
+        - "${MAGENTO_ECHO_SERVER_PORT}:6001"
       links:
         - redis
       networks:
@@ -659,8 +660,16 @@ services:
 networks:
   frontend:
     driver: "bridge"
+    ipam:
+      config:
+      - subnet: ${MAGENTO_FRONTEND_SUBNET}.0/24
+        gateway: ${MAGENTO_FRONTEND_SUBNET}.254
   backend:
     driver: "bridge"
+    ipam:
+      config:
+      - subnet: ${MAGENTO_BACKEND_SUBNET}.0/24
+        gateway: ${MAGENTO_BACKEND_SUBNET}.254
 
 ### Volumes Setup #############################################
 

@@ -33,27 +33,27 @@ Choose the setup the best suits your needs.
 <a name="A1"></a>
 ### A.1) Already have a PHP project:
 
-1 - Clone laradock on your project root directory:
+1 - Clone mage2dock on your project root directory:
 
 ```bash
-git submodule add https://github.com/Laradock/laradock.git
+git submodule add https://github.com/Laradock/mage2dock.git
 ```
 
 Note: If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
 
-*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#keep-track-of-your-laradock-changes)*
+*To keep track of your Mage2dock changes, between your projects and also keep Mage2dock updated [check these docs](/documentation/#keep-track-of-your-mage2dock-changes)*
 
 
 Your folder structure should look like this:
 
 ```
 + project-a
-  + laradock-a
+  + mage2dock-a
 + project-b
-  + laradock-b
+  + mage2dock-b
 ```
 
-*(It's important to rename the laradock folders to unique name in each project, if you want to run laradock per project).*
+*(It's important to rename the mage2dock folders to unique name in each project, if you want to run mage2dock per project).*
 
 > **Now jump to the [Usage](#Usage) section.**
 
@@ -63,13 +63,13 @@ Your folder structure should look like this:
 1 - Clone this repository anywhere on your machine:
 
 ```bash
-git clone https://github.com/laradock/laradock.git
+git clone https://github.com/mage2dock/mage2dock.git
 ```
 
 Your folder structure should look like this:
 
 ```
-+ laradock
++ mage2dock
 + project-z
 ```
 
@@ -99,20 +99,20 @@ Make sure to replace `project-z` with your project folder name.
 1 - Clone this repository anywhere on your machine (similar to [Steps A.2. from above](#A2)):
 
 ```bash
-git clone https://github.com/laradock/laradock.git
+git clone https://github.com/mage2dock/mage2dock.git
 ```
 
 Your folder structure should look like this:
 
 ```
-+ laradock
++ mage2dock
 + project-1
 + project-2
 ```
 
 2 - Go to `nginx/sites` and create config files to point to different project directory when visiting different domains.
 
-Laradock by default includes `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`  as working samples.
+Mage2dock by default includes `app.conf.example`, `magento.conf.example` and `symfony.conf.example`  as working samples.
 
 3 - change the default names `*.conf`:
 
@@ -141,8 +141,8 @@ You can rename the config files, project folders and domains as you like, just m
 
 If you are using **Docker Toolbox** (VM), do one of the following:
 
-- Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
-- Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/Laradock-ToolBox) branch. *(outdated)*
+- Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Mage2dock](/documentation/#upgrading-mage2dock)
+- Use Mage2dock v3.\*. Visit the [Mage2dock-ToolBox](https://github.com/mage2dock/mage2dock/tree/Laradock-ToolBox) branch. *(outdated)*
 
 <br>
 
@@ -150,11 +150,11 @@ We recommend using a Docker version which is newer than 1.13.
 
 <br>
 
->**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent as much errors as possible.
+>**Warning:** If you used an older version of Mage2dock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent as much errors as possible.
 
 <br>
 
-1 - Enter the laradock folder and copy `env-example` to `.env`
+1 - Enter the mage2dock folder and copy `env-example` to `.env`
 
 ```shell
 cp env-example .env
@@ -174,7 +174,7 @@ docker-compose up -d nginx mysql
 **Note**: The `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command. If you couldn't find them running then you need specify them as follow: `docker-compose up -d nginx php-fpm mysql workspace`.
 
 
-You can select your own combination of containers form [this list](http://laradock.io/introduction/#supported-software-images).
+You can select your own combination of containers form [this list](http://mage2dock.io/introduction/#supported-software-images).
 
 *(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
 
@@ -192,10 +192,10 @@ docker-compose exec workspace bash
 docker exec -it {workspace-container-id} bash
 ```
 
-**Note:** You can add `--user=laradock` to have files created as your host's user. Example: 
+**Note:** You can add `--user=mage2dock` to have files created as your host's user. Example: 
 
 ```shell
-docker-compose exec --user=laradock workspace bash
+docker-compose exec --user=mage2dock workspace bash
 ```
 
 *You can change the PUID (User id) and PGID (group id) variables from the `.env` file)*
@@ -209,7 +209,7 @@ Open your PHP project's `.env` file or whichever configuration file you are read
 DB_HOST=mysql
 ```
 
-*If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
+*If you want to install Magento as PHP project, see [How to Install Magento in a Docker Container](#Install-Magento).*
 
 <br>
 5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`.

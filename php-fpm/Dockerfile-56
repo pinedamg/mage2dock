@@ -7,7 +7,7 @@
 #    https://github.com/Laradock/php-fpm
 #
 # To change its version, see the available Tags on the Docker Hub:
-#    https://hub.docker.com/r/laradock/php-fpm/tags/
+#    https://hub.docker.com/r/mage2dock/php-fpm/tags/
 #
 # Note: Base Image name format {image-tag}-{php-version}
 #
@@ -22,7 +22,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #--------------------------------------------------------------------------
 #
 # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
-# are installed on the base image 'laradock/php-fpm' image. If you want
+# are installed on the base image 'mage2dock/php-fpm' image. If you want
 # to add more Software's or remove existing one, you need to edit the
 # base image (https://github.com/Laradock/php-fpm).
 #
@@ -291,8 +291,8 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
 #--------------------------------------------------------------------------
 #
 
-ADD ./laravel.ini /usr/local/etc/php/conf.d
-ADD ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
+ADD ./magento.ini /usr/local/etc/php/conf.d
+ADD ./xmagento.pool.conf /usr/local/etc/php-fpm.d/
 
 #RUN rm -r /var/lib/apt/lists/*
 

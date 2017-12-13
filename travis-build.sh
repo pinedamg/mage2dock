@@ -19,7 +19,7 @@ if [ -n "${PHP_VERSION}" ]; then
     docker images
 fi
 
-#### Generate the Laradock Documentation site using Hugo
+#### Generate the Mage2dock Documentation site using Hugo
 if [ -n "${HUGO_VERSION}" ]; then
     HUGO_PACKAGE=hugo_${HUGO_VERSION}_Linux-64bit
     HUGO_BIN=hugo_${HUGO_VERSION}_linux_amd64

@@ -1,7 +1,7 @@
-baseurl = "http://laradock.io/"
+baseurl = "http://mage2dock.io/"
 languageCode = "en-us"
 publishDir = "../docs"
-title = "Laradock"
+title = "Mage2dock"
 theme = "hugo-material-docs"
 metadataformat = "yaml"
 canonifyurls = true
@@ -42,7 +42,7 @@ googleAnalytics = "UA-37514928-9"
 
 [social]
 	twitter = ""
-	github  = "laradock/laradock"
+	github  = "mage2dock/mage2dock"
 	email   = ""
 
 # ------- MENU START -----------------------------------------

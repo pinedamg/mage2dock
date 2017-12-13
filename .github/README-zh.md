@@ -1,23 +1,23 @@
-# Laradock
+# Mage2dock
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://zalt.me)
 
-[![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://badges.gitter.im/Laradock/mage2dock.svg)](https://gitter.im/Laradock/mage2dock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Laradock 能够帮你在 **Docker** 上快速搭建 **Laravel** 应用。
+Mage2dock 能够帮你在 **Docker** 上快速搭建 **Magento** 应用。
 
-就像 Laravel Homestead 一样，但是 Docker 替换了 Vagrant。
+就像 Magento Homestead 一样，但是 Docker 替换了 Vagrant。
 
-> 先在使用 Laradock，然后再学习它们。
+> 先在使用 Mage2dock，然后再学习它们。
 
 ## 目录
 - [Intro](#Intro)
 	- [Features](#features)
 	- [Supported Software's](#Supported-Containers)
 	- [What is Docker](#what-is-docker)
-	- [What is Laravel](#what-is-laravel)
+	- [What is Magento](#what-is-magento)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
-	- [Laradock VS Homestead](#laradock-vs-homestead)
+	- [Mage2dock VS Homestead](#mage2dock-vs-homestead)
 - [Demo Video](#Demo)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
@@ -33,8 +33,8 @@ Laradock 能够帮你在 **Docker** 上快速搭建 **Laravel** 应用。
 		- [Build/Re-build Containers](#Build-Re-build-Containers)
 		- [Add more Software's (Docker Images)](#Add-Docker-Images)
 		- [View the Log files](#View-the-Log-files)
-	- [Laravel](#Laravel):
-		- [Install Laravel from a Docker Container](#Install-Laravel)
+	- [Magento](#Magento):
+		- [Install Magento from a Docker Container](#Install-Magento)
 		- [Run Artisan Commands](#Run-Artisan-Commands)
 		- [Use Redis](#Use-Redis)
 		- [Use Mongo](#Use-Mongo)
@@ -49,26 +49,26 @@ Laradock 能够帮你在 **Docker** 上快速搭建 **Laravel** 应用。
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
-		- [Upgrading Laradock](#upgrading-laradock)
+		- [Upgrading Mage2dock](#upgrading-mage2dock)
 - [Help & Questions](#Help)
 
 
 <a name="Intro"></a>
 ## 介绍
 
-Laradock 努力简化创建开发环境过程。
+Mage2dock 努力简化创建开发环境过程。
 它包含预包装 Docker 镜像，提供你一个美妙的开发环境而不需要安装 PHP, NGINX, MySQL 和其他任何软件在你本地机器上。
 
 **使用概览：**
 
-让我们了解使用它安装 `NGINX`, `PHP`, `Composer`, `MySQL` 和 `Redis`，然后运行 `Laravel`
+让我们了解使用它安装 `NGINX`, `PHP`, `Composer`, `MySQL` 和 `Redis`，然后运行 `Magento`
 
-1. 将 Laradock 放到你的 Laravel 项目中：
+1. 将 Mage2dock 放到你的 Magento 项目中：
 ```bash
-git clone https://github.com/laradock/laradock.git
+git clone https://github.com/mage2dock/mage2dock.git
 ```
 
-2. 进入 Laradock 目录
+2. 进入 Mage2dock 目录
  ```bash
 cp env-example .env
 ```
@@ -78,7 +78,7 @@ cp env-example .env
 docker-compose up -d nginx mysql redis
 ```
 
-4. 打开你的Laravel 项目的 `.env` 文件，然后设置 `mysql` 的 `DB_HOST` 和  `redis` 的`REDIS_HOST`。
+4. 打开你的Magento 项目的 `.env` 文件，然后设置 `mysql` 的 `DB_HOST` 和  `redis` 的`REDIS_HOST`。
 
 5. 打开浏览器，访问 localhost：
 
@@ -91,7 +91,7 @@ docker-compose up -d nginx mysql redis
 - 所有软件运行在不同的容器之中，比如：PHP-FPM, NGINX, PHP-CLI...
 - 通过简单的编写 `Dockerfile` 容易定制任何容器。
 - 所有镜像继承自一个官方基础镜像（Trusted base Images）
-- 可预配置Laravel的Nginx环境
+- 可预配置Magento的Nginx环境
 - 容易应用容器中的配置 配置文件（`Dockerfile`）
 - 最新的 Docker Compose 版本（`docker-compose`）
 - 所有的都是可视化和可编辑的
@@ -129,8 +129,8 @@ docker-compose up -d nginx mysql redis
 
 [Docker](https://www.docker.com) 是一个开源项目,自动化部署应用程序软件的容器,在 Linux, Mac OS and Windows 提供一个额外的抽象层和自动化的[操作系统级的虚拟化](https://en.wikipedia.org/wiki/Operating-system-level_virtualization)
 
-<a name="what-is-laravel"></a>
-### Laravel 是什么?
+<a name="what-is-magento"></a>
+### Magento 是什么?
 
 额，这很认真的!!!
 
@@ -144,23 +144,23 @@ docker-compose up -d nginx mysql redis
 
 最重要的是 Docker 可以运行在开发和生产(相同环境无处不在)。Vagrant 是专为开发,(所以在生产环境你必须每一次重建您的服务器)。
 
-<a name="laradock-vs-homestead"></a>
-### Laradock Homestead 对比
+<a name="mage2dock-vs-homestead"></a>
+### Mage2dock Homestead 对比
 
-Laradock and [Homestead](https://laravel.com/docs/master/homestead) 给你一个完整的虚拟开发环境。(不需要安装和配置软件在你自己的每一个操作系统)。
+Mage2dock and [Homestead](https://magento.com/docs/master/homestead) 给你一个完整的虚拟开发环境。(不需要安装和配置软件在你自己的每一个操作系统)。
 
 Homestead 是一个工具,为你控制虚拟机(使用 Homestead 特殊命令)。Vagrant 可以管理你的管理虚容器。
 
-运行一个虚拟容器比运行一整个虚拟机快多了 **Laradock 比 Homestead 快多了**
+运行一个虚拟容器比运行一整个虚拟机快多了 **Mage2dock 比 Homestead 快多了**
 
 <a name="Demo"></a>
 ## 演示视频
 还有什么比**演示视频**好：
 
-- Laradock [v4.0](https://www.youtube.com/watch?v=TQii1jDa96Y)
-- Laradock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
-- Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
-- Laradock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
+- Mage2dock [v4.0](https://www.youtube.com/watch?v=TQii1jDa96Y)
+- Mage2dock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
+- Mage2dock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
+- Mage2dock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
 
 <a name="Requirements"></a>
 ## 依赖
@@ -171,20 +171,20 @@ Homestead 是一个工具,为你控制虚拟机(使用 Homestead 特殊命令)�
 <a name="Installation"></a>
 ## 安装
 
-1 - 克隆 `Laradock` 仓库:
+1 - 克隆 `Mage2dock` 仓库:
 
-**A)** 如果你已经有一个 Laravel 项目,克隆这个仓库在到 `Laravel` 根目录
+**A)** 如果你已经有一个 Magento 项目,克隆这个仓库在到 `Magento` 根目录
 
 ```bash
-git submodule add https://github.com/laradock/laradock.git
+git submodule add https://github.com/mage2dock/mage2dock.git
 ```
 
->如果你不是使用 Git 管理 Laravel 项目,您可以使用 `git clone` 而不是 `git submodule`。
+>如果你不是使用 Git 管理 Magento 项目,您可以使用 `git clone` 而不是 `git submodule`。
 
-**B)** 如果你没有一个 Laravel 项目,你想 Docker 安装 Laravel,克隆这个源在您的机器任何地方上:
+**B)** 如果你没有一个 Magento 项目,你想 Docker 安装 Magento,克隆这个源在您的机器任何地方上:
 
 ```bash
-git clone https://github.com/laradock/laradock.git
+git clone https://github.com/mage2dock/mage2dock.git
 ```
 
 <a name="Usage"></a>
@@ -192,11 +192,11 @@ git clone https://github.com/laradock/laradock.git
 
 **请在开始之前阅读:**
 如果你正在使用 **Docker Toolbox** (VM)，选择以下任何一个方法：
-- 更新到 Docker [Native](https://www.docker.com/products/docker) Mac/Windows 版本 (建议). 查看 [Upgrading Laradock](#upgrading-laradock)
-- 使用 Laradock v3.* (访问 `Laradock-ToolBox` [分支](https://github.com/laradock/laradock/tree/Laradock-ToolBox)).
-如果您使用的是 **Docker Native**(Mac / Windows 版本)甚至是 Linux 版本,通常可以继续阅读这个文档，Laradock v4 以上版本将仅支持 **Docker Native**。
+- 更新到 Docker [Native](https://www.docker.com/products/docker) Mac/Windows 版本 (建议). 查看 [Upgrading Mage2dock](#upgrading-mage2dock)
+- 使用 Mage2dock v3.* (访问 `Mage2dock-ToolBox` [分支](https://github.com/mage2dock/mage2dock/tree/Laradock-ToolBox)).
+如果您使用的是 **Docker Native**(Mac / Windows 版本)甚至是 Linux 版本,通常可以继续阅读这个文档，Mage2dock v4 以上版本将仅支持 **Docker Native**。
 
-1 - 运行容器: *(在运行 `docker-compose` 命令之前，确认你在 `laradock` 目录中*
+1 - 运行容器: *(在运行 `docker-compose` 命令之前，确认你在 `mage2dock` 目录中*
 
 **例子:** 运行 NGINX 和 MySQL:
 
@@ -215,13 +215,13 @@ docker-compose up -d  nginx mysql
 docker-compose exec workspace bash
 ```
 
-增加 `--user=laradock` (例如 `docker-compose exec --user=laradock workspace bash`) 作为您的主机的用户创建的文件. (你可以从 `docker-compose.yml`修改 PUID (User id) 和 PGID (group id) 值 ).
+增加 `--user=mage2dock` (例如 `docker-compose exec --user=mage2dock workspace bash`) 作为您的主机的用户创建的文件. (你可以从 `docker-compose.yml`修改 PUID (User id) 和 PGID (group id) 值 ).
 
-3 - 编辑 Laravel 的配置.
+3 - 编辑 Magento 的配置.
 
-如果你还没有安装 Laravel 项目，请查看 [How to Install Laravel in a Docker Container](#Install-Laravel).
+如果你还没有安装 Magento 项目，请查看 [How to Install Magento in a Docker Container](#Install-Magento).
 
-打开 Laravel 的 `.env` 文件 然后 配置 你的 `mysql` 的 `DB_HOST`:
+打开 Magento 的 `.env` 文件 然后 配置 你的 `mysql` 的 `DB_HOST`:
 
 ```env
 DB_HOST=mysql
@@ -299,7 +299,7 @@ docker-compose exec mysql bash
 
 ```yml
   environment:
-    MYSQL_DATABASE: laradock
+    MYSQL_DATABASE: mage2dock
 ```
 
 修改 Redis 默认端口为 1111:
@@ -358,31 +358,31 @@ Nginx的日志在 `logs/nginx` 目录
 docker logs {container-name}
 ```
 
-<a name="Laravel"></a>
-### [Laravel]
+<a name="Magento"></a>
+### [Magento]
 
-<a name="Install-Laravel"></a>
-### 从 Docker 镜像安装 Laravel
+<a name="Install-Magento"></a>
+### 从 Docker 镜像安装 Magento
 
 1 - 首先你需要进入 Workspace 容器.
 
-2 - 安装 Laravel.
+2 - 安装 Magento.
 
 例如 使用 Composer
 
 ```bash
-composer create-project laravel/laravel my-cool-app "5.2.*"
+composer create-project magento/magento my-cool-app "5.2.*"
 ```
 
-> 我们建议使用 `composer create-project` 替换 Laravel 安装器去安装 Laravel.
+> 我们建议使用 `composer create-project` 替换 Magento 安装器去安装 Magento.
 
-关于更多 Laravel 安装内容请 [点击这儿](https://laravel.com/docs/master#installing-laravel).
+关于更多 Magento 安装内容请 [点击这儿](https://magento.com/docs/master#installing-magento).
 
 
 3 - 编辑 `docker-compose.yml` 映射新的应用目录:
-系统默认 Laradock 假定 Laravel 应用在 laradock 的父级目录中
+系统默认 Mage2dock 假定 Magento 应用在 mage2dock 的父级目录中
 
-更新 Laravel 应用在 `my-cool-app` 目录中, 我们需要用 `../my-cool-app/:/var/www`替换 `../:/var/www` , 如下:
+更新 Magento 应用在 `my-cool-app` 目录中, 我们需要用 `../my-cool-app/:/var/www`替换 `../:/var/www` , 如下:
 
 ```yaml
     application:
@@ -397,7 +397,7 @@ composer create-project laravel/laravel my-cool-app "5.2.*"
 cd my-cool-app
 ```
 
-5 - 回到 Laradock 安装步骤,看看如何编辑 `.env` 的文件。
+5 - 回到 Mage2dock 安装步骤,看看如何编辑 `.env` 的文件。
 
 <a name="Run-Artisan-Commands"></a>
 ### 运行 Artisan 命令
@@ -422,7 +422,7 @@ docker-compose ps
 docker-compose exec workspace bash
 ```
 
-增加 `--user=laradock` (例如 `docker-compose exec --user=laradock workspace bash`) 作为您的主机的用户创建的文件.
+增加 `--user=mage2dock` (例如 `docker-compose exec --user=mage2dock workspace bash`) 作为您的主机的用户创建的文件.
 
 4 - 运行任何你想的 :)
 
@@ -444,7 +444,7 @@ phpunit
 docker-compose up -d redis
 ```
 
-2 - 打开你的Laravel的 `.env` 文件 然后 配置 `redis` 的 `REDIS_HOST`
+2 - 打开你的Magento的 `.env` 文件 然后 配置 `redis` 的 `REDIS_HOST`
 
 ```env
 REDIS_HOST=redis
@@ -477,10 +477,10 @@ SESSION_DRIVER=redis
 composer require predis/predis:^1.0
 ```
 
-5 - 你可以用以下代码在 Laravel 中手动测试：
+5 - 你可以用以下代码在 Magento 中手动测试：
 
 ```php
-\Cache::store('redis')->put('Laradock', 'Awesome', 10);
+\Cache::store('redis')->put('Mage2dock', 'Awesome', 10);
 ```
 
 <a name="Use-Mongo"></a>
@@ -545,25 +545,25 @@ docker-compose up -d mongo
 ],
 ```
 
-5 - 打开 Laravel 的 `.env` 文件然后更新以下字段:
+5 - 打开 Magento 的 `.env` 文件然后更新以下字段:
 
 - 设置 `DB_HOST` 为 `mongo` 的主机 IP.
 - 设置 `DB_PORT` 为 `27017`.
 - 设置 `DB_DATABASE` 为 `database`.
 
 
-6 - 最后务必通过 Composer 安装 `jenssegers/mongodb` 包，添加服务提供者（Laravel Service Provider）
+6 - 最后务必通过 Composer 安装 `jenssegers/mongodb` 包，添加服务提供者（Magento Service Provider）
 
 
 ```bash
 composer require jenssegers/mongodb
 ```
 
-更多细节内容 [点击这儿](https://github.com/jenssegers/laravel-mongodb#installation).
+更多细节内容 [点击这儿](https://github.com/jenssegers/magento-mongodb#installation).
 
 7 - 测试:
 
-- 首先让你的模型继承 Mongo 的 Eloquent Model. 查看 [文档](https://github.com/jenssegers/laravel-mongodb#eloquent).
+- 首先让你的模型继承 Mongo 的 Eloquent Model. 查看 [文档](https://github.com/jenssegers/magento-mongodb#eloquent).
 - 进入 Workspace 容器.
 - 迁移数据库 `php artisan migrate`.
 
@@ -612,7 +612,7 @@ docker-compose build php
 #### B) 切换版本 PHP `7.0` 或 `5.6` 到 PHP `5.5`
 我们已不在本地支持 PHP5.5，但是你按照以下步骤获取：
 
-1 - 克隆 `https://github.com/laradock/php-fpm`.
+1 - 克隆 `https://github.com/mage2dock/php-fpm`.
 
 2 - 重命名 `Dockerfile-56` 为 `Dockerfile-55`.
 
@@ -669,19 +669,19 @@ PHP-CLI 安装在 Workspace 容器，改变 PHP-CLI 版本你需要编辑 `works
 <a name="Use-custom-Domain"></a>
 ### 使用自定义域名 (替换 Docker 的 IP)
 
-假定你的自定义域名是 `laravel.dev`
+假定你的自定义域名是 `magento.dev`
 
-1 - 打开 `/etc/hosts` 文件添加以下内容，映射你的 localhost 地址 `127.0.0.1` 为 `laravel.dev` 域名
+1 - 打开 `/etc/hosts` 文件添加以下内容，映射你的 localhost 地址 `127.0.0.1` 为 `magento.dev` 域名
 ```bash
-127.0.0.1    laravel.dev
+127.0.0.1    magento.dev
 ```
 
-2 - 打开你的浏览器访问 `{http://laravel.dev}`
+2 - 打开你的浏览器访问 `{http://magento.dev}`
 
 你可以在 nginx 配置文件自定义服务器名称,如下:
 
 ```conf
-server_name laravel.dev;
+server_name magento.dev;
 ```
 
 <a name="Enable-Global-Composer-Build-Install"></a>
@@ -752,15 +752,15 @@ c - 重建 Workspace 容器 `docker-compose build workspace`
 
 *这里是你可能面临的常见问题列表,以及可能的解决方案.*
 
-#### 看到空白页而不是 Laravel 的欢迎页面!
+#### 看到空白页而不是 Magento 的欢迎页面!
 
-在 Laravel 根目录，运行下列命令:
+在 Magento 根目录，运行下列命令:
 
 ```bash
 sudo chmod -R 777 storage bootstrap/cache
 ```
 
-#### 看到 "Welcome to nginx" 而不是 Laravel 应用!
+#### 看到 "Welcome to nginx" 而不是 Magento 应用!
 
 在浏览器使用 `http://127.0.0.1` 替换 `http://localhost`.
 
@@ -768,16 +768,16 @@ sudo chmod -R 777 storage bootstrap/cache
 
 确保你想运行的服务端口(80, 3306, etc.)不是已经被其他程序使用，例如 `apache`/`httpd` 服务或其他安装的开发工具
 
-<a name="upgrading-laradock"></a>
-### Laradock 升级
+<a name="upgrading-mage2dock"></a>
+### Mage2dock 升级
 
 
-从 Docker Toolbox (VirtualBox) 移动到 Docker Native (for Mac/Windows)，需要从 Laradock v3.* 升级到 v4.*:
+从 Docker Toolbox (VirtualBox) 移动到 Docker Native (for Mac/Windows)，需要从 Mage2dock v3.* 升级到 v4.*:
 
 1. 停止 Docker 虚拟机 `docker-machine stop {default}`
 2. 安装 Docker [Mac](https://docs.docker.com/docker-for-mac/) 或 [Windows](https://docs.docker.com/docker-for-windows/).
-3. 升级 Laradock 到 `v4.*.*` (`git pull origin master`)
-4. 像之前一样使用 Laradock: `docker-compose up -d nginx mysql`.
+3. 升级 Mage2dock 到 `v4.*.*` (`git pull origin master`)
+4. 像之前一样使用 Mage2dock: `docker-compose up -d nginx mysql`.
 
 **说明:** 如果你面临任何上面的问题的最后一步:重建你所有的容器
 ```bash
@@ -789,16 +789,16 @@ docker-compose build --no-cache
 ## 贡献
 这个小项目是由一个有一个全职工作和很多的职责的人建立的,所以如果你喜欢这个项目,并且发现它需要一个 bug 修复或支持或新软件或升级任何容器,或其他任何. . 你是非常欢迎，欢迎毫不不犹豫地贡献吧:)
 
-#### 阅读我们的 [贡献说明](https://github.com/laradock/laradock/blob/master/CONTRIBUTING.md)
+#### 阅读我们的 [贡献说明](https://github.com/mage2dock/mage2dock/blob/master/CONTRIBUTING.md)
 
 <a name="Help"></a>
 ## 帮助 & 问题
 
-从聊天室 [Gitter](https://gitter.im/Laradock/laradock) 社区获取帮助和支持.
+从聊天室 [Gitter](https://gitter.im/Laradock/mage2dock) 社区获取帮助和支持.
 
-你也可以打开 Github 上的 [issue](https://github.com/laradock/laradock/issues) (将被贴上问题和答案) 或与大家讨论 [Gitter](https://gitter.im/Laradock/laradock).
+你也可以打开 Github 上的 [issue](https://github.com/mage2dock/mage2dock/issues) (将被贴上问题和答案) 或与大家讨论 [Gitter](https://gitter.im/Laradock/mage2dock).
 
-Docker 或 Laravel 的特别帮助，你可以在 [Codementor.io](https://www.codementor.io/mahmoudz) 上直接和项目创始人在线沟通
+Docker 或 Magento 的特别帮助，你可以在 [Codementor.io](https://www.codementor.io/mahmoudz) 上直接和项目创始人在线沟通
 
 ## 关于作者
 
@@ -808,10 +808,10 @@ Docker 或 Laravel 的特别帮助，你可以在 [Codementor.io](https://www.co
 
 **优秀的人:**
 
-- [Contributors](https://github.com/laradock/laradock/graphs/contributors)
-- [Supporters](https://github.com/laradock/laradock/issues?utf8=%E2%9C%93&q=)
+- [Contributors](https://github.com/mage2dock/mage2dock/graphs/contributors)
+- [Supporters](https://github.com/mage2dock/mage2dock/issues?utf8=%E2%9C%93&q=)
 
 
 ## 许可证
 
-[MIT License](https://github.com/laradock/laradock/blob/master/LICENSE) (MIT)
+[MIT License](https://github.com/mage2dock/mage2dock/blob/master/LICENSE) (MIT)

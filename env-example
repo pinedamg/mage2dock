@@ -20,7 +20,7 @@ DATA_SAVE_PATH=../data
 # Applies to the Workspace and PHP-FPM containers (Does not apply to HHVM)
 # Accepted values: 71 - 70 - 56
 
-PHP_VERSION=71
+PHP_VERSION=70
 
 ### PHP interpreter
 # Accepted values: hhvm - php-fpm
@@ -30,6 +30,12 @@ PHP_INTERPRETER=php-fpm
 ############################
 # Containers Customization
 ############################
+
+### MAGENTO 2 ##########################################################################################################
+
+MAGENTO_RUN_MODE=developer
+PHP_MEMORY_LIMIT=2048M
+UPLOAD_MAX_FILESIZE=64M
 
 ### WORKSPACE ##########################################################################################################
 
@@ -46,8 +52,9 @@ WORKSPACE_INSTALL_AEROSPIKE=false
 WORKSPACE_INSTALL_V8JS=false
 WORKSPACE_COMPOSER_GLOBAL_INSTALL=true
 WORKSPACE_INSTALL_WORKSPACE_SSH=false
-WORKSPACE_INSTALL_LARAVEL_ENVOY=false
-WORKSPACE_INSTALL_LARAVEL_INSTALLER=true
+WORKSPACE_INSTALL_MAGENTO_ENVOY=false
+### ADD MAGENTO INSTALLER #########################
+WORKSPACE_INSTALL_MAGENTO_INSTALLER=true
 WORKSPACE_INSTALL_DEPLOYER=false
 WORKSPACE_INSTALL_LINUXBREW=false
 WORKSPACE_INSTALL_MC=false
@@ -269,9 +276,9 @@ CADDY_HOST_HTTPS_PORT=443
 CADDY_HOST_LOG_PATH=./logs/caddy
 CADDY_CUSTOM_CADDYFILE=./caddy/Caddyfile
 
-### LARAVEL ECHO SERVER ################################################################################################
+### MAGENTO ECHO SERVER ################################################################################################
 
-LARAVEL_ECHO_SERVER_PORT=6001
+MAGENTO_ECHO_SERVER_PORT=6001
 
 ### DOCKER-SYNC ################################################################################################
 
@@ -296,9 +303,9 @@ DOCKER_SYNC_STRATEGY=native_osx
 DOCKER_HOST_IP=10.0.75.1
 
 
-# The Remote Interpreter entry matching name `laradock`
+# The Remote Interpreter entry matching name `mage2dock`
 
-PHP_IDE_CONFIG=serverName=laradock
+PHP_IDE_CONFIG=serverName=mage2dock
 
 
 # Fix for windows users to make sure the application path works.

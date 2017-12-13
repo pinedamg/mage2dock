@@ -8,7 +8,7 @@ weight: 4
 
 * [Production Setup on Digital Ocean](#Digital-Ocean)
 * [PHPStorm XDebug Setup](#PHPStorm-Debugging)
-* [Running Laravel Dusk Test](#Laravel-Dusk)
+* [Running Magento Dusk Test](#Magento-Dusk)
 
 
 
@@ -40,34 +40,34 @@ You can now check if Docker is available:
 $root@server:~# docker
 ```
 
-## Set Up Your Laravel Project
+## Set Up Your Magento Project
 
 ```
 $root@server:~# apt-get install git
-$root@server:~# git clone https://github.com/laravel/laravel
-$root@server:~# cd laravel
-$root@server:~/laravel/ git submodule add https://github.com/Laradock/laradock.git
-$root@server:~/laravel/ cd laradock
+$root@server:~# git clone https://github.com/magento/magento
+$root@server:~# cd magento
+$root@server:~/magento/ git submodule add https://github.com/Laradock/mage2dock.git
+$root@server:~/magento/ cd mage2dock
 ```
 
 ## Install docker-compose command
 
 ```
-$root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
+$root@server:~/magento/mage2dock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
 $root@server:~/chmod +x /usr/local/bin/docker-compose
 ```
-##  Enter the laradock folder and rename env-example to .env.
+##  Enter the mage2dock folder and rename env-example to .env.
 ```
-$root@server:~/laravel/laradock# cp env-example .env
-```
-
-## Create Your Laradock Containers
-
-```
-$root@server:~/laravel/laradock# docker-compose up -d nginx mysql
+$root@server:~/magento/mage2dock# cp env-example .env
 ```
 
-Note that more containers are available, find them in the [docs](http://laradock.io/introduction/#supported-software-containers) or the `docker-compose.yml` file.
+## Create Your Mage2dock Containers
+
+```
+$root@server:~/magento/mage2dock# docker-compose up -d nginx mysql
+```
+
+Note that more containers are available, find them in the [docs](http://mage2dock.io/introduction/#supported-software-containers) or the `docker-compose.yml` file.
 
 ## Go to Your Workspace
 
@@ -75,26 +75,26 @@ Note that more containers are available, find them in the [docs](http://laradock
 docker-compose exec workspace bash
 ```
 
-## Install and configure Laravel
+## Install and configure Magento
 
-Let's install Laravel's dependencies, add the `.env` file, generate the key and give proper permissions to the cache folder.
+Let's install Magento's dependencies, add the `.env` file, generate the key and give proper permissions to the cache folder.
 
 ```
 $ root@workspace:/var/www# composer install
 $ root@workspace:/var/www# cp .env.example .env
 $ root@workspace:/var/www# php artisan key:generate
 $ root@workspace:/var/www# exit
-$root@server:~/laravel/laradock# cd ..
-$root@server:~/laravel# sudo chmod -R 777 storage bootstrap/cache
+$root@server:~/magento/mage2dock# cd ..
+$root@server:~/magento# sudo chmod -R 777 storage bootstrap/cache
 ```
 
-You can then view your Laravel site by visiting the IP address of your server in your browser. For example:
+You can then view your Magento site by visiting the IP address of your server in your browser. For example:
 
 ```
 http://192.168.1.1
 ```
 
-It should show you the Laravel default welcome page.
+It should show you the Magento default welcome page.
 
 However, we want it to show up using your custom domain name, as well.
 
@@ -121,8 +121,8 @@ Add your domain name and choose the server IP you'd provision earlier.
 Go back to command line.
 
 ```
-$root@server:~/laravel/laradock# cd nginx
-$root@server:~/laravel/laradock/nginx# vim laravel.conf
+$root@server:~/magento/mage2dock# cd nginx
+$root@server:~/magento/mage2dock/nginx# vim magento.conf
 ```
 
 Remove `default_server`
@@ -143,14 +143,14 @@ And add `server_name` (your custom domain)
 ## Rebuild Your Nginx
 
 ```
-$root@server:~/laravel/laradock# docker-compose down
-$root@server:~/laravel/laradock# docker-compose build nginx
+$root@server:~/magento/mage2dock# docker-compose down
+$root@server:~/magento/mage2dock# docker-compose build nginx
 ```
 
 ## Re Run Your Containers MYSQL and NGINX
 
 ```
-$root@server:~/laravel/laradock/nginx# docker-compose up -d nginx mysql
+$root@server:~/magento/mage2dock/nginx# docker-compose up -d nginx mysql
 ```
 
 **View Your Site with HTTP ONLY (http://yourdomain.com)**
@@ -162,8 +162,8 @@ $root@server:~/laravel/laradock/nginx# docker-compose up -d nginx mysql
 To go Caddy Folders and Edit CaddyFile
 
 ```
-$root@server:~/laravel/laradock# cd caddy
-$root@server:~/laravel/laradock/caddy# vim Caddyfile
+$root@server:~/magento/mage2dock# cd caddy
+$root@server:~/magento/mage2dock/caddy# vim Caddyfile
 ```
 
 Remove 0.0.0.0:80
@@ -197,13 +197,13 @@ This is needed Prior to Creating Let's Encypt
 ## Run Your Caddy Container without the -d flag and Generate SSL with Let's Encrypt
 
 ```
-$root@server:~/laravel/laradock/caddy# docker-compose up  caddy
+$root@server:~/magento/mage2dock/caddy# docker-compose up  caddy
 ```
 
 You'll be prompt here to enter your email... you may enter it or not
 
 ```
-Attaching to laradock_mysql_1, laradock_caddy_1
+Attaching to mage2dock_mysql_1, mage2dock_caddy_1
 caddy_1               | Activating privacy features...
 caddy_1               | Your sites will be served over HTTPS automatically using Let's Encrypt.
 caddy_1               | By continuing, you agree to the Let's Encrypt Subscriber Agreement at:
@@ -218,8 +218,8 @@ After it finishes, press `Ctrl` + `C` to exit.
 ## Stop All Containers and ReRun Caddy and Other Containers on Background
 
 ```
-$root@server:~/laravel/laradock/caddy# docker-compose down
-$root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
+$root@server:~/magento/mage2dock/caddy# docker-compose down
+$root@server:~/magento/mage2dock/caddy# docker-compose up -d mysql caddy
 ```
 
 View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
@@ -251,16 +251,16 @@ View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
 
 - [Intro](#Intro)
 - [Installation](#Installation)
-    - [Customize laradock/docker-compose.yml](#CustomizeDockerCompose)
+    - [Customize mage2dock/docker-compose.yml](#CustomizeDockerCompose)
         - [Clean House](#InstallCleanHouse)
-        - [Laradock Dial Tone](#InstallLaradockDialTone)
+        - [Mage2dock Dial Tone](#InstallMage2dockDialTone)
         - [hosts](#AddToHosts)
         - [Firewall](#FireWall)
         - [Enable xDebug on php-fpm](#enablePhpXdebug)
     - [PHPStorm Settings](#InstallPHPStorm)
         - [Configs](#InstallPHPStormConfigs)
 - [Usage](#Usage)
-    - [Laravel](#UsageLaravel)
+    - [Magento](#UsageMagento)
         - [Run ExampleTest](#UsagePHPStormRunExampleTest)
         - [Debug ExampleTest](#UsagePHPStormDebugExampleTest)
         - [Debug Web Site](#UsagePHPStormDebugSite)
@@ -270,24 +270,24 @@ View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
 <a name="Intro"></a>
 ## Intro
 
-Wiring up [Laravel](https://laravel.com/), [Laradock](https://github.com/Laradock/laradock) [Laravel+Docker] and [PHPStorm](https://www.jetbrains.com/phpstorm/) to play nice together complete with remote xdebug'ing as icing on top! Although this guide is based on `PHPStorm Windows`,
+Wiring up [Magento](https://magento.com/), [Mage2dock](https://github.com/Laradock/mage2dock) [Magento+Docker] and [PHPStorm](https://www.jetbrains.com/phpstorm/) to play nice together complete with remote xdebug'ing as icing on top! Although this guide is based on `PHPStorm Windows`,
 you should be able to adjust accordingly. This guide was written based on Docker for Windows Native.
 
 <a name="Installation"></a>
 ## Installation
 
 - This guide assumes the following:
-    - you have already installed and are familiar with Laravel, Laradock and PHPStorm.
-    - you have installed Laravel as a parent of `laradock`. This guide assumes `/c/_dk/laravel`.
+    - you have already installed and are familiar with Magento, Mage2dock and PHPStorm.
+    - you have installed Magento as a parent of `mage2dock`. This guide assumes `/c/_dk/magento`.
 
 <a name="AddToHosts"></a>
 ## hosts
-- Add `laravel` to your hosts file located on Windows 10 at `C:\Windows\System32\drivers\etc\hosts`. It should be set to the IP of your running container. Mine is: `10.0.75.2`
+- Add `magento` to your hosts file located on Windows 10 at `C:\Windows\System32\drivers\etc\hosts`. It should be set to the IP of your running container. Mine is: `10.0.75.2`
 On Windows you can find it by opening Windows `Hyper-V Manager`.
     - ![Windows Hyper-V Manager](images/photos/PHPStorm/Settings/WindowsHyperVManager.png)
 
 - [Hosts File Editor](https://github.com/scottlerch/HostsFileEditor) makes it easy to change your hosts file.
-    - Set `laravel` to your docker host IP. See [Example](images/photos/SimpleHostsEditor/AddHost_laravel.png).
+    - Set `magento` to your docker host IP. See [Example](images/photos/SimpleHostsEditor/AddHost_magento.png).
 
 
 <a name="FireWall"></a>
@@ -297,7 +297,7 @@ Your PHPStorm will need to be able to receive a connection from PHP xdebug eithe
 - It is important to note that if the Application PHPStorm is NOT enabled in the firewall, you will not be able to recreate a rule to override that.
 - Also be aware that if you are installing/upgrade different versions of PHPStorm, you MAY have orphaned references to PHPStorm in your Firewall! You may decide to remove orphaned references however in either case, make sure that they are set to receive public TCP traffic.
 
-### Edit laradock/docker-compose.yml
+### Edit mage2dock/docker-compose.yml
 Set the following variables:
 ```
 ### Workspace Utilities Container ###############
@@ -323,8 +323,8 @@ Set the following variables:
 ```
 
 ### Edit xdebug.ini files
-- `laradock/workspace/xdebug.ini`
-- `laradock/php-fpm/xdebug.ini`
+- `mage2dock/workspace/xdebug.ini`
+- `mage2dock/php-fpm/xdebug.ini`
 
 Set the following variables:
 
@@ -339,17 +339,17 @@ xdebug.cli_color=1
 <a name="InstallCleanHouse"></a>
 ### Need to clean house first?
 
-Make sure you are starting with a clean state. For example, do you have other Laradock containers and images?
+Make sure you are starting with a clean state. For example, do you have other Mage2dock containers and images?
 Here are a few things I use to clean things up.
 
-- Delete all containers using `grep laradock_` on the names, see: [Remove all containers based on docker image name](https://linuxconfig.org/remove-all-containners-based-on-docker-image-name).
+- Delete all containers using `grep mage2dock_` on the names, see: [Remove all containers based on docker image name](https://linuxconfig.org/remove-all-containners-based-on-docker-image-name).
 
-`docker ps -a | awk '{ print $1,$2 }' | grep laradock_ | awk '{print $1}' | xargs -I {} docker rm {}`
+`docker ps -a | awk '{ print $1,$2 }' | grep mage2dock_ | awk '{print $1}' | xargs -I {} docker rm {}`
 
-- Delete all images containing `laradock`.
+- Delete all images containing `mage2dock`.
 
-`docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}`
-**Note:** This will only delete images that were built with `Laradock`, **NOT** `laradock/*` which are pulled down by `Laradock` such as `laradock/workspace`, etc.
+`docker images | awk '{print $1,$2,$3}' | grep mage2dock_ | awk '{print $3}' | xargs -I {} docker rmi {}`
+**Note:** This will only delete images that were built with `Mage2dock`, **NOT** `mage2dock/*` which are pulled down by `Mage2dock` such as `mage2dock/workspace`, etc.
 **Note:** Some may fail with:
 `Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images`
 
@@ -369,33 +369,33 @@ dclean() {
 }
 ```
 
-- If you frequently switch configurations for Laradock, you may find that adding the following and added to your `.bashrc` or equivalent useful:
+- If you frequently switch configurations for Mage2dock, you may find that adding the following and added to your `.bashrc` or equivalent useful:
 
 ```
-# remove laravel* containers
-# remove laravel_* images
-dcleanlaradockfunction()
+# remove magento* containers
+# remove magento_* images
+dcleanmage2dockfunction()
 {
-	echo 'Removing ALL containers associated with laradock'
-	docker ps -a | awk '{ print $1,$2 }' | grep laradock | awk '{print $1}' | xargs -I {} docker rm {}
+	echo 'Removing ALL containers associated with mage2dock'
+	docker ps -a | awk '{ print $1,$2 }' | grep mage2dock | awk '{print $1}' | xargs -I {} docker rm {}
 
-	# remove ALL images associated with laradock_
-	# does NOT delete laradock/* which are hub images
-	echo 'Removing ALL images associated with laradock_'
-	docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}
+	# remove ALL images associated with mage2dock_
+	# does NOT delete mage2dock/* which are hub images
+	echo 'Removing ALL images associated with mage2dock_'
+	docker images | awk '{print $1,$2,$3}' | grep mage2dock_ | awk '{print $3}' | xargs -I {} docker rmi {}
 
-	echo 'Listing all laradock docker hub images...'
-	docker images | grep laradock
+	echo 'Listing all mage2dock docker hub images...'
+	docker images | grep mage2dock
 
-	echo 'dcleanlaradock completed'
+	echo 'dcleanmage2dock completed'
 }
 # associate the above function with an alias
 # so can recall/lookup by typing 'alias'
-alias dcleanlaradock=dcleanlaradockfunction
+alias dcleanmage2dock=dcleanmage2dockfunction
 ```
 
-<a name="InstallLaradockDialTone"></a>
-## Let's get a dial-tone with Laravel
+<a name="InstallMage2dockDialTone"></a>
+## Let's get a dial-tone with Magento
 
 ```
 # barebones at this point
@@ -407,23 +407,23 @@ docker-compose ps
 # Should see:
           Name                        Command             State                     Ports
 -----------------------------------------------------------------------------------------------------------
-laradock_mysql_1            docker-entrypoint.sh mysqld   Up       0.0.0.0:3306->3306/tcp
-laradock_nginx_1            nginx                         Up       0.0.0.0:443->443/tcp, 0.0.0.0:80->80/tcp
-laradock_php-fpm_1          php-fpm                       Up       9000/tcp
-laradock_volumes_data_1     true                          Exit 0
-laradock_volumes_source_1   true                          Exit 0
-laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222->22/tcp
+mage2dock_mysql_1            docker-entrypoint.sh mysqld   Up       0.0.0.0:3306->3306/tcp
+mage2dock_nginx_1            nginx                         Up       0.0.0.0:443->443/tcp, 0.0.0.0:80->80/tcp
+mage2dock_php-fpm_1          php-fpm                       Up       9000/tcp
+mage2dock_volumes_data_1     true                          Exit 0
+mage2dock_volumes_source_1   true                          Exit 0
+mage2dock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222->22/tcp
 ```
 
 <a name="enablePhpXdebug"></a>
 ## Enable xDebug on php-fpm
 
-In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
+In a host terminal sitting in the mage2dock folder, run: `.php-fpm/xdebug status`
 You should see something like the following:
 
 ```
 xDebug status
-laradock_php-fpm_1
+mage2dock_php-fpm_1
 PHP 7.0.9 (cli) (built: Aug 10 2016 19:45:48) ( NTS )
 Copyright (c) 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
@@ -509,13 +509,13 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 - Add a BreakPoint on line 16: `$this->visit('/')`
 - right-click on `tests/ExampleTest.php`
     - Select: `Debug 'ExampleTest.php'`.
-    - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
+    - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Magento project via SSH!
     - ![Remote Test Debugging Success](/images/photos/PHPStorm/RemoteTestDebuggingSuccess.png)
 
 
 <a name="UsagePHPStormDebugSite"></a>
 ### Debug WebSite
-- In case xDebug is disabled, from the `laradock` folder run:
+- In case xDebug is disabled, from the `mage2dock` folder run:
 `.php-fpm/xdebug start`.
     - To switch xdebug off, run:
 `.php-fpm/xdebug stop`
@@ -525,15 +525,15 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 
 - Open to edit: `bootstrap/app.php`
 - Add a BreakPoint on line 14: `$app = new Illuminate\Foundation\Application(`
-- Reload [Laravel Site](http://laravel/)
-    - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
+- Reload [Magento Site](http://magento/)
+    - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Magento project via SSH!
     - ![Remote Debugging Success](/images/photos/PHPStorm/RemoteDebuggingSuccess.png)
 
 
 <a name="SSHintoWorkspace"></a>
 ## Let's shell into workspace
-Assuming that you are in laradock folder, type:
-`ssh -i workspace/insecure_id_rsa -p2222 root@laravel`
+Assuming that you are in mage2dock folder, type:
+`ssh -i workspace/insecure_id_rsa -p2222 root@magento`
 **Cha Ching!!!!**
 - `workspace/insecure_id_rsa.ppk` may become corrupted. In which case:
     - fire up `puttygen`
@@ -562,19 +562,19 @@ Assuming that you are in laradock folder, type:
 <br>
 <br>
 
-<a name="Laravel-Dusk"></a>
-# Running Laravel Dusk Tests
+<a name="Magento-Dusk"></a>
+# Running Magento Dusk Tests
 
 - [Intro](#dusk-intro)
 - [DNS Setup](#dns-setup)
 - [Docker Compose Setup](#docker-compose)
-- [Laravel Dusk Setup](#laravel-dusk-setup)
-- [Running Laravel Dusk Tests](#running-tests)
+- [Magento Dusk Setup](#magento-dusk-setup)
+- [Running Magento Dusk Tests](#running-tests)
 
 <a name="dusk-intro"></a>
 ## Intro
-Setting up Laravel Dusk tests to run with Laradock appears be something that
-eludes most Laradock users. This guide is designed to show you how to wire them
+Setting up Magento Dusk tests to run with Mage2dock appears be something that
+eludes most Mage2dock users. This guide is designed to show you how to wire them
 up to work together. This guide is written with macOS and Linux in mind. As such,
 it's only been tested on macOS. Feel free to create pull requests to update the guide
 for Windows-specific instructions.
@@ -595,7 +595,7 @@ A common TLD used for local development is `.dev`, but newer versions of Google
 Chrome (such as the one bundled with the Selenium Docker image), will fail to
 resolve that DNS as there will appear to be a name collision.
 
-The recommended extension is `.test` for your Laravel web apps because you're
+The recommended extension is `.test` for your Magento web apps because you're
 running tests. Using a DNS forwarder such as `dnsmasq` or by editing the `/etc/hosts`
 file, configure the host to point to `localhost`.
 
@@ -614,7 +614,7 @@ For example, in your `/etc/hosts` file:
 ```
 
 This will ensure that when navigating to `myapp.test`, it will route the
-request to `127.0.0.1` which will be handled by Nginx in Laradock.
+request to `127.0.0.1` which will be handled by Nginx in Mage2dock.
 
 <a name="docker-compose"></a>
 ## Docker Compose setup
@@ -639,12 +639,12 @@ the Selenium container to make requests to the Nginx container, which is
 necessary for running Dusk tests. These changes also link the `nginx` environment
 variable to the domain you wired up in your hosts file.
 
-<a name="laravel-dusk-setup"></a>
-## Laravel Dusk Setup
+<a name="magento-dusk-setup"></a>
+## Magento Dusk Setup
 
-In order to make Laravel Dusk make the proper request to the Selenium container,
+In order to make Magento Dusk make the proper request to the Selenium container,
 you have to edit the `DuskTestCase.php` file that's provided on the initial
-installation of Laravel Dusk. The change you have to make deals with the URL the
+installation of Magento Dusk. The change you have to make deals with the URL the
 Remote Web Driver attempts to use to set up the Selenium session.
 
 One recommendation for this is to add a separate config option in your `.env.dusk.local`
@@ -677,11 +677,11 @@ abstract class DuskTestCase extends BaseTestCase
 ```
 
 <a name="running-tests"></a>
-## Running Laravel Dusk Tests
+## Running Magento Dusk Tests
 
 Now that you have everything set up, to run your Dusk tests, you have to SSH
 into the workspace container as you normally would:
-```docker-compose exec --user=laradock workspace bash```
+```docker-compose exec --user=mage2dock workspace bash```
 
 Once inside, you can change directory to your application and run:
 
@@ -691,11 +691,11 @@ One way to make this easier from your project is to create a helper script. Here
 ```bash
 #!/usr/bin/env sh
 
-LARADOCK_HOME="path/to/laradock"
+MAGE2DOCK_HOME="path/to/mage2dock"
 
-pushd ${LARADOCK_HOME}
+pushd ${MAGE2DOCK_HOME}
 
-docker-compose exec --user=laradock workspace bash -c "cd my-project && php artisan dusk && exit"
+docker-compose exec --user=mage2dock workspace bash -c "cd my-project && php artisan dusk && exit"
 ```
 
 This invokes the Dusk command from inside the workspace container but when the script completes
