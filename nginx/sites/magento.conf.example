@@ -5,7 +5,7 @@ server {
     server_name localhost;
 
     set $MAGE_ROOT /var/www/magento;
-    set $MAGE_MODE developer;
+    set $MAGE_MODE {$MAGENTO_RUN_MODE};
 
     # Support for SSL termination.
     set $my_http "http";
@@ -25,7 +25,7 @@ server {
     index index.php;
     autoindex off;
     charset UTF-8;
-    client_max_body_size 64M;
+    client_max_body_size {$UPLOAD_MAX_FILESIZE};
     error_page 404 403 = /errors/404.php;
     #add_header "X-UA-Compatible" "IE=Edge";
 

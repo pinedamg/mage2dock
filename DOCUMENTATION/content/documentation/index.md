@@ -431,14 +431,34 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 
+<br>
+<a name="Use-Jenkins"></a>
+## Use Jenkins
+
+1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
+
+2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
+
+3) Authenticate from the web app.
+
+- Default username is `admin`.
+- Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`. 
+
+(To enter container as root type `docker-compose exec --user root jenkins bash`).
+
+4) Install some plugins.
+
+5) Create your first Admin user, or continue as Admin.
+
+Note: to add user go to `http://localhost:8090/securityRealm/addUser` and to restart it from the web app visit `http://localhost:8090/restart`.
+
+You may wanna change the default security configuration, so go to `http://localhost:8090/configureSecurity/` under Authorization and choosing "Anyone can do anything" or "Project-based Matrix Authorization Strategy" or anything else.
+
+
+
 
 <br>
 <a name="Laravel"></a>
-
-
-
-
-
 
 <a name="Install-Laravel"></a>
 ## Install Laravel from a Docker Container
@@ -541,11 +561,18 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
 ```yaml
     php-worker:
       build:
-        context: ./php-fpm
-        dockerfile: Dockerfile-70 # or Dockerfile-56, choose your PHP-FPM container setting
+        context: ./php-worker
+        dockerfile: "Dockerfile-${PHP_VERSION}" #Dockerfile-71 or #Dockerfile-70 available
+        args:
+          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
       volumes_from:
         - applications
-      command: php artisan queue:work
+      depends_on:
+        - workspace
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      networks:
+        - backend
 ```
 2 - Start everything up
 
@@ -567,13 +594,15 @@ docker-compose up -d php-worker
 docker-compose up -d redis
 ```
 
+> To execute redis commands, enter the redis container first `docker-compose exec redis bash` then enter the `redis-cli`.
+
 2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to `redis`
 
 ```env
 REDIS_HOST=redis
 ```
 
-If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database configuration file `config/database.php` and replace the default `127.0.0.1` IP with `redis` for Redis like this:
+If you're using Laravel, and you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database configuration file `config/database.php` and replace the default `127.0.0.1` IP with `redis` for Redis like this:
 
 ```php
 'redis' => [
@@ -813,19 +842,20 @@ docker-compose up -d elasticsearch
 
 2 - Open your browser and visit the localhost on port **9200**:  `http://localhost:9200`
 
+> The default username is `user` and the default password is `changeme`.
 
 ### Install ElasticSearch Plugin
 
-1 - Install the ElasticSearch plugin like [delete-by-query](https://www.elastic.co/guide/en/elasticsearch/plugins/current/plugins-delete-by-query.html).
+1 - Install an ElasticSearch plugin.
 
 ```bash
-docker exec {container-name} /usr/share/elasticsearch/bin/plugin install delete-by-query
+docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
 ```
 
 2 - Restart elasticsearch container
 
 ```bash
-docker restart {container-name}
+docker-compose restart elasticsearch
 ```
 
 
@@ -943,6 +973,24 @@ docker-compose up -d aws
 
 
 <br>
+<a name="Use-Grafana"></a>
+## Use Grafana
+
+1 - Configure Grafana: Change Port using `GRAFANA_PORT` if you wish to. Default is port 3000.
+
+2 - Run the Grafana Container (`grafana`) with the `docker-compose up`command:
+
+```bash
+docker-compose up -d grafana
+```
+
+3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
+
+4 - Login using the credentials User = `admin` Passwort = `admin`. Change the password in the webinterface if you want to.
+
+
+
+<br>
 <a name="CodeIgniter"></a>
 
 
@@ -974,7 +1022,7 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 
 4 - Run `docker-compose restart` if the container was already running, before the step above.
 
-5 - Visit `symfony.dev`
+5 - Visit `symfony.test`
 
 <br>
 <a name="Misc"></a>
@@ -1043,9 +1091,6 @@ To change the default forwarded port for ssh:
 			- "2222:22" # Edit this line
     ...
 ```
-
-
-
 
 
 
@@ -1139,21 +1184,21 @@ If you need <a href="#MySQL-access-from-host">MySQL access from your host</a>, d
 <a name="Use-custom-Domain"></a>
 ## Use custom Domain (instead of the Docker IP)
 
-Assuming your custom domain is `laravel.dev`
+Assuming your custom domain is `laravel.test`
 
-1 - Open your `/etc/hosts` file and map your localhost address `127.0.0.1` to the `laravel.dev` domain, by adding the following:
+1 - Open your `/etc/hosts` file and map your localhost address `127.0.0.1` to the `laravel.test` domain, by adding the following:
 
 ```bash
-127.0.0.1    laravel.dev
+127.0.0.1    laravel.test
 ```
 
-2 - Open your browser and visit `{http://laravel.dev}`
+2 - Open your browser and visit `{http://laravel.test}`
 
 
 Optionally you can define the server name in the NGINX configuration file, like this:
 
 ```conf
-server_name laravel.dev;
+server_name laravel.test;
 ```
 
 
