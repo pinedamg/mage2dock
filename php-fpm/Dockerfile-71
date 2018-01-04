@@ -7,12 +7,12 @@
 #    https://github.com/Laradock/php-fpm
 #
 # To change its version, see the available Tags on the Docker Hub:
-#    https://hub.docker.com/r/mage2dock/php-fpm/tags/
+#    https://hub.docker.com/r/laradock/php-fpm/tags/
 #
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-FROM laradock/php-fpm:1.4-71
+FROM laradock/php-fpm:2.0-71
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -22,7 +22,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #--------------------------------------------------------------------------
 #
 # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
-# are installed on the base image 'mage2dock/php-fpm' image. If you want
+# are installed on the base image 'laradock/php-fpm' image. If you want
 # to add more Software's or remove existing one, you need to edit the
 # base image (https://github.com/Laradock/php-fpm).
 #
@@ -51,6 +51,28 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ;fi
 
 #####################################
+# pgsql
+#####################################
+
+ARG INSTALL_PGSQL=false
+RUN if [ ${INSTALL_PGSQL} = true ]; then \
+    # Install the pgsql extension
+    apt-get update -yqq && \
+    docker-php-ext-install pgsql \
+;fi
+
+#####################################
+# pgsql client
+#####################################
+
+ARG INSTALL_PG_CLIENT=false
+RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
+    # Install the pgsql client
+    apt-get update -yqq && \
+    apt-get install -y postgresql-client \
+;fi
+
+#####################################
 # xDebug:
 #####################################
 
@@ -61,7 +83,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     docker-php-ext-enable xdebug \
 ;fi
 
-# Copy xdebug configration for remote debugging
+# Copy xdebug configuration for remote debugging
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Add Remote Host Dinamic IP
@@ -182,11 +204,11 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     apt-get -y install sudo wget && \
 
     # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/3.4.14.tar.gz" \
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
-        cd aerospike-client-php/src/aerospike \
+        cd aerospike-client-php/src \
         && phpize \
         && ./build.sh \
         && make install \
@@ -322,8 +344,8 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
 #--------------------------------------------------------------------------
 #
 
-ADD ./magento.ini /usr/local/etc/php/conf.d
-ADD ./xmagento.pool.conf /usr/local/etc/php-fpm.d/
+ADD ./laravel.ini /usr/local/etc/php/conf.d
+ADD ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
 
 #RUN rm -r /var/lib/apt/lists/*
 

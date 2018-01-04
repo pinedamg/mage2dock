@@ -7,14 +7,17 @@
 #    https://github.com/Laradock/workspace
 #
 # To change its version, see the available Tags on the Docker Hub:
-#    https://hub.docker.com/r/mage2dock/workspace/tags/
+#    https://hub.docker.com/r/laradock/workspace/tags/
 #
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-FROM laradock/workspace:1.8-56
+FROM laradock/workspace:2.0-56
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+
+# Remove Faillog and Lastlog to reduce the size of the final image.
+RUN rm /var/log/lastlog /var/log/faillog
 
 #
 #--------------------------------------------------------------------------
@@ -22,7 +25,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #--------------------------------------------------------------------------
 #
 # Mandatory Software's such as ("php5.6-cli", "git", "vim", ....) are
-# installed on the base image 'mage2dock/workspace' image. If you want
+# installed on the base image 'laradock/workspace' image. If you want
 # to add more Software's or remove existing one, you need to edit the
 # base image (https://github.com/Laradock/workspace).
 #
@@ -50,8 +53,8 @@ ARG PGID=1000
 ENV PUID ${PUID}
 ENV PGID ${PGID}
 
-RUN groupadd -g ${PGID} mage2dock && \
-    useradd -u ${PUID} -g mage2dock -m mage2dock && \
+RUN groupadd -g ${PGID} laradock && \
+    useradd -u ${PUID} -g laradock -m laradock && \
     apt-get update -yqq
 
 #####################################
@@ -70,6 +73,34 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ;fi
 
 #####################################
+# LDAP:
+#####################################
+
+ARG INSTALL_LDAP=false
+ENV INSTALL_LDAP ${INSTALL_LDAP}
+
+RUN if [ ${INSTALL_LDAP} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y libldap2-dev && \
+    apt-get install -y php5.6-ldap \
+;fi
+
+#####################################
+# IMAP:
+#####################################
+USER root
+
+ARG INSTALL_IMAP=false
+ENV INSTALL_IMAP ${INSTALL_IMAP}
+
+RUN if [ ${INSTALL_IMAP} = true ]; then \
+  # Install the PHP IMAP extension
+  add-apt-repository -y ppa:ondrej/php && \
+  apt-get update -yqq && \
+  apt-get -y install php5.6-imap \
+;fi
+
+#####################################
 # Set Timezone
 #####################################
 
@@ -82,11 +113,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #####################################
 
 # Add the composer.json
-COPY ./composer.json /home/mage2dock/.composer/composer.json
+COPY ./composer.json /home/laradock/.composer/composer.json
 
-# Make sure that ~/.composer belongs to mage2dock
-RUN chown -R mage2dock:mage2dock /home/mage2dock/.composer
-USER mage2dock
+# Make sure that ~/.composer belongs to laradock
+RUN chown -R laradock:laradock /home/laradock/.composer
+USER laradock
 
 # Check if global install need to be ran
 ARG COMPOSER_GLOBAL_INSTALL=false
@@ -112,22 +143,22 @@ RUN chmod -R 644 /etc/cron.d
 # User Aliases
 #####################################
 
-USER mage2dock
-COPY ./aliases.sh /home/mage2dock/aliases.sh
+USER laradock
+COPY ./aliases.sh /home/laradock/aliases.sh
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
-    echo "source /home/mage2dock/aliases.sh" >> ~/.bashrc && \
+    echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
 	echo "" >> ~/.bashrc && \
-	sed -i 's/\r//' /home/mage2dock/aliases.sh && \
-	sed -i 's/^#! \/bin\/sh/#! \/bin\/bash/' /home/mage2dock/aliases.sh
+	sed -i 's/\r//' /home/laradock/aliases.sh && \
+	sed -i 's/^#! \/bin\/sh/#! \/bin\/bash/' /home/laradock/aliases.sh
 
 USER root
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
-    echo "source /home/mage2dock/aliases.sh" >> ~/.bashrc && \
+    echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
 	echo "" >> ~/.bashrc && \
-	sed -i 's/\r//' /home/mage2dock/aliases.sh && \
-	sed -i 's/^#! \/bin\/sh/#! \/bin\/bash/' /home/mage2dock/aliases.sh
+	sed -i 's/\r//' /home/laradock/aliases.sh && \
+	sed -i 's/^#! \/bin\/sh/#! \/bin\/bash/' /home/laradock/aliases.sh
 
 #####################################
 # xDebug:
@@ -192,6 +223,7 @@ ARG INSTALL_MONGO=false
 ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
+    pecl channel-update pecl.php.net && \
     pecl install mongodb && \
     echo "extension=mongodb.so" >> /etc/php/5.6/mods-available/mongodb.ini && \
     ln -s /etc/php/5.6/mods-available/mongodb.ini /etc/php/5.6/cli/conf.d/30-mongodb.ini \
@@ -240,7 +272,7 @@ RUN if [ ${INSTALL_DRUPAL_CONSOLE} = true ]; then \
     chmod +x /usr/local/bin/drupal \
 ;fi
 
-USER mage2dock
+USER laradock
 
 #####################################
 # Node / NVM:
@@ -251,7 +283,7 @@ ARG NODE_VERSION=stable
 ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=false
 ENV INSTALL_NODE ${INSTALL_NODE}
-ENV NVM_DIR /home/mage2dock/.nvm
+ENV NVM_DIR /home/laradock/.nvm
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash && \
@@ -275,7 +307,7 @@ USER root
 
 RUN if [ ${INSTALL_NODE} = true ]; then \
     echo "" >> ~/.bashrc && \
-    echo 'export NVM_DIR="/home/mage2dock/.nvm"' >> ~/.bashrc && \
+    echo 'export NVM_DIR="/home/laradock/.nvm"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;fi
 
@@ -286,7 +318,7 @@ ENV PATH $PATH:$NVM_DIR/versions/node/v${NODE_VERSION}/bin
 # YARN:
 #####################################
 
-USER mage2dock
+USER laradock
 
 ARG INSTALL_YARN=false
 ENV INSTALL_YARN ${INSTALL_YARN}
@@ -309,7 +341,7 @@ USER root
 
 RUN if [ ${INSTALL_YARN} = true ]; then \
     echo "" >> ~/.bashrc && \
-    echo 'export YARN_DIR="/home/mage2dock/.yarn"' >> ~/.bashrc && \
+    echo 'export YARN_DIR="/home/laradock/.yarn"' >> ~/.bashrc && \
     echo 'export PATH="$YARN_DIR/bin:$PATH"' >> ~/.bashrc \
 ;fi
 
@@ -326,7 +358,7 @@ COPY ./aerospike.ini /etc/php/5.6/cli/conf.d/aerospike.ini
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/3.4.14.tar.gz" \
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php5/archive/3.4.15.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
@@ -347,47 +379,45 @@ RUN if [ ${INSTALL_AEROSPIKE} = false ]; then \
 #####################################
 
 # add ./vendor/bin to non-root user's bashrc (needed for phpunit)
-USER mage2dock
+USER laradock
 
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="/var/www/vendor/bin:$PATH"' >> ~/.bashrc
 
 #####################################
-# Magento Envoy:
+# Laravel Envoy:
 #####################################
-USER mage2dock
+USER laradock
 
-ARG INSTALL_MAGENTO_ENVOY=true
-ENV INSTALL_MAGENTO_ENVOY ${INSTALL_MAGENTO_ENVOY}
+ARG INSTALL_LARAVEL_ENVOY=true
+ENV INSTALL_LARAVEL_ENVOY ${INSTALL_LARAVEL_ENVOY}
 
-RUN if [ ${INSTALL_MAGENTO_ENVOY} = true ]; then \
-    # Install the Magento Envoy
-    composer global require "magento/envoy=~1.0" \
+RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
+    # Install the Laravel Envoy
+    composer global require "laravel/envoy=~1.0" \
 ;fi
 
-# ADD MAGENTO INSTALLER
-#
 #####################################
-# Magento Installer:
+# Laravel Installer:
 #####################################
-#USER root
-#
-#ARG INSTALL_MAGENTO_INSTALLER=true
-#ENV INSTALL_MAGENTO_INSTALLER ${INSTALL_MAGENTO_INSTALLER}
-#
-#RUN if [ ${INSTALL_MAGENTO_INSTALLER} = true ]; then \
-#    # Install the Magento Installer
-#    echo "" >> ~/.bashrc && \
-#    echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc \
-#    && composer global require "magento/installer" \
-#;fi
+USER root
 
-USER mage2dock
+ARG INSTALL_LARAVEL_INSTALLER=true
+ENV INSTALL_LARAVEL_INSTALLER ${INSTALL_LARAVEL_INSTALLER}
+
+RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
+    # Install the Laravel Installer
+    echo "" >> ~/.bashrc && \
+    echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc \
+    && composer global require "laravel/installer" \
+;fi
+
+USER laradock
 
 #####################################
 # Deployer:
 #####################################
-USER mage2dock
+USER laradock
 
 ARG INSTALL_DEPLOYER=false
 ENV INSTALL_DEPLOYER ${INSTALL_DEPLOYER}
@@ -467,7 +497,7 @@ RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
     ;fi\
 ;fi
 
-USER mage2dock
+USER laradock
 
 #####################################
 # Symfony:
@@ -512,6 +542,62 @@ ARG INSTALL_IMAGEMAGICK=false
 ENV INSTALL_IMAGEMAGICK ${INSTALL_IMAGEMAGICK}
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apt-get install -y --force-yes imagemagick php-imagick \
+;fi
+
+#####################################
+# Terraform:
+#####################################
+USER root
+ARG INSTALL_TERRAFORM=false
+ENV INSTALL_TERRAFORM ${INSTALL_TERRAFORM}
+RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
+    apt-get update -yqq \
+    && apt-get -y install sudo wget unzip \
+    && wget https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
+    && unzip terraform_0.10.6_linux_amd64.zip \
+    && mv terraform /usr/local/bin \
+    && rm terraform_0.10.6_linux_amd64.zip \
+;fi
+
+#####################################
+# pgsql client
+#####################################
+USER root
+ARG INSTALL_PG_CLIENT=false
+ENV INSTALL_PG_CLIENT ${INSTALL_PG_CLIENT}
+RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
+    # Install the pgsql clint
+    apt-get update -yqq && \
+    apt-get -y install postgresql-client \
+;fi
+
+#####################################
+# Dusk Dependencies:
+#####################################
+USER root
+ARG INSTALL_DUSK_DEPS=false
+ENV INSTALL_DUSK_DEPS ${INSTALL_DUSK_DEPS}
+RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
+  # Install required packages
+  add-apt-repository ppa:ondrej/php \
+  && apt-get update \
+  && apt-get -y install zip wget unzip xdg-utils \
+    libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
+    gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
+    xfonts-base xfonts-scalable x11-apps \
+
+  # Install Google Chrome
+  && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+  && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
+  && apt-get -y -f install \
+  && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
+  && rm google-chrome-stable_current_amd64.deb \
+
+  # Install Chrome Driver
+  && wget https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip \
+  && unzip chromedriver_linux64.zip \
+  && mv chromedriver /usr/local/bin/ \
+  && rm chromedriver_linux64.zip \
 ;fi
 
 #

@@ -5,7 +5,7 @@
         index index.php
     }
 
-    # To handle .html extensions with magento change ext to
+    # To handle .html extensions with laravel change ext to
     # ext / .html
 
     rewrite {
@@ -25,6 +25,6 @@
     #  dns cloudflare
     #}
 }
-mage2dock.demo {
+laradock.demo:80 {
     root /var/www/public
 }

@@ -95,7 +95,7 @@ Change MySQL Database Name:
 
 ```yml
     environment:
-        MYSQL_DATABASE: mage2dock
+        MYSQL_DATABASE: laradock
     ...
 ```
 
@@ -249,7 +249,7 @@ docker-compose build php-fpm
 
 We do not natively support PHP 5.5 anymore, but you can get it in few steps:
 
-1 - Clone `https://github.com/mage2dock/php-fpm`.
+1 - Clone `https://github.com/laradock/php-fpm`.
 
 3 - Rename `Dockerfile-56` to `Dockerfile-55`.
 
@@ -315,7 +315,7 @@ It should be like this:
     ...
 ```
 
-2 - Open `mage2dock/workspace/xdebug.ini` and `mage2dock/php-fpm/xdebug.ini` and enable at least the following configurations:
+2 - Open `laradock/workspace/xdebug.ini` and `laradock/php-fpm/xdebug.ini` and enable at least the following configurations:
 
 ```
 xdebug.remote_autostart=1
@@ -325,19 +325,19 @@ xdebug.remote_connect_back=1
 
 3 - Re-build the containers `docker-compose build workspace php-fpm`
 
-For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/magento-mage2dock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
+For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
 
 
 <a name="Setup remote debugging for PhpStorm on Linux"></a>
 ## Setup remote debugging for PhpStorm on Linux
 
- - Make sure you have followed the steps above in the [Install Xdebug section](http://mage2dock.io/documentation/#install-xdebug).
+ - Make sure you have followed the steps above in the [Install Xdebug section](http://laradock.io/documentation/#install-xdebug).
 
  - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
 
 ![Debug Configuration](/images/photos/PHPStorm/linux/configuration/debugConfiguration.png "Debug Configuration").
 
- - Create a server with name `mage2dock` (matches **PHP_IDE_CONFIG** key in environment file) and make sure to map project root path with server correctly.
+ - Create a server with name `laradock` (matches **PHP_IDE_CONFIG** key in environment file) and make sure to map project root path with server correctly.
 
 ![Server Configuration](/images/photos/PHPStorm/linux/configuration/serverConfiguration.png "Server Configuration").
 
@@ -350,7 +350,7 @@ For information on how to configure xDebug with your IDE and work it out, check 
 
 By installing xDebug, you are enabling it to run on startup by default.
 
-To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Mage2dock root folder, (at the same prompt where you run docker-compose):
+To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
 
 - Stop xDebug from running by default: `.php-fpm/xdebug stop`.
 - Start xDebug by default: `.php-fpm/xdebug start`.
@@ -402,10 +402,10 @@ It should be like this:
 
 
 <br>
-<a name="Mage2dock-for-Production"></a>
-## Prepare Mage2dock for Production
+<a name="Laradock-for-Production"></a>
+## Prepare Laradock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason, Mage2dock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
+It's recommended for production to create a custom `docker-compose.yml` file. For that reason, Laradock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
 Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
 
@@ -423,46 +423,66 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 <br>
 <a name="Digital-Ocean"></a>
-## Setup Magento and Docker on Digital Ocean
+## Setup Laravel and Docker on Digital Ocean
 
-### [Full Guide Here](https://github.com/mage2dock/mage2dock/blob/master/_guides/digital_ocean.md)
-
+### [Full Guide Here](https://github.com/laradock/laradock/blob/master/_guides/digital_ocean.md)
 
 
 
 
 
 <br>
-<a name="Magento"></a>
+<a name="Use-Jenkins"></a>
+## Use Jenkins
+
+1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
+
+2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
+
+3) Authenticate from the web app.
+
+- Default username is `admin`.
+- Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`. 
+
+(To enter container as root type `docker-compose exec --user root jenkins bash`).
+
+4) Install some plugins.
+
+5) Create your first Admin user, or continue as Admin.
+
+Note: to add user go to `http://localhost:8090/securityRealm/addUser` and to restart it from the web app visit `http://localhost:8090/restart`.
+
+You may wanna change the default security configuration, so go to `http://localhost:8090/configureSecurity/` under Authorization and choosing "Anyone can do anything" or "Project-based Matrix Authorization Strategy" or anything else.
 
 
 
 
+<br>
+<a name="Laravel"></a>
 
-
-<a name="Install-Magento"></a>
-## Install Magento from a Docker Container
+<a name="Install-Laravel"></a>
+## Install Laravel from a Docker Container
 
 1 - First you need to enter the Workspace Container.
 
-2 - Install Magento.
+2 - Install Laravel.
 
 Example using Composer
 
 ```bash
-composer create-project magento/magento my-cool-app "5.2.*"
+composer create-project laravel/laravel my-cool-app "5.2.*"
 ```
 
-> We recommend using `composer create-project` instead of the Magento installer, to install Magento.
+> We recommend using `composer create-project` instead of the Laravel installer, to install Laravel.
 
-For more about the Magento installation click [here](https://magento.com/docs/master#installing-magento).
+For more about the Laravel installation click [here](https://laravel.com/docs/master#installing-laravel).
 
 
 3 - Edit `docker-compose.yml` to Map the new application path:
 
-By default, Mage2dock assumes the Magento application is living in the parent directory of the mage2dock folder.
+By default, Laradock assumes the Laravel application is living in the parent directory of the laradock folder.
 
-Since the new Magento application is in the `my-cool-app` folder, we need to replace `../:/var/www` with `../my-cool-app/:/var/www`, as follow:
+Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www` with `../my-cool-app/:/var/www`, as follow:
 
 ```yaml
     application:
@@ -477,7 +497,7 @@ Since the new Magento application is in the `my-cool-app` folder, we need to rep
 cd my-cool-app
 ```
 
-5 - Go back to the Mage2dock installation steps to see how to edit the `.env` file.
+5 - Go back to the Laradock installation steps to see how to edit the `.env` file.
 
 
 
@@ -508,7 +528,7 @@ docker-compose ps
 docker-compose exec workspace bash
 ```
 
-Add `--user=mage2dock` (example `docker-compose exec --user=mage2dock workspace bash`) to have files created as your host's user.
+Add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user.
 
 
 4 - Run anything you want :)
@@ -529,8 +549,8 @@ phpunit
 
 
 <br>
-<a name="Run-Magento-Queue-Worker"></a>
-## Run Magento Queue Worker
+<a name="Run-Laravel-Queue-Worker"></a>
+## Run Laravel Queue Worker
 
 1 - First add `php-worker` container. It will be similar as like PHP-FPM Container.
 <br>
@@ -541,11 +561,18 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
 ```yaml
     php-worker:
       build:
-        context: ./php-fpm
-        dockerfile: Dockerfile-70 # or Dockerfile-56, choose your PHP-FPM container setting
+        context: ./php-worker
+        dockerfile: "Dockerfile-${PHP_VERSION}" #Dockerfile-71 or #Dockerfile-70 available
+        args:
+          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
       volumes_from:
         - applications
-      command: php artisan queue:work
+      depends_on:
+        - workspace
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      networks:
+        - backend
 ```
 2 - Start everything up
 
@@ -567,13 +594,15 @@ docker-compose up -d php-worker
 docker-compose up -d redis
 ```
 
-2 - Open your Magento's `.env` file and set the `REDIS_HOST` to `redis`
+> To execute redis commands, enter the redis container first `docker-compose exec redis bash` then enter the `redis-cli`.
+
+2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to `redis`
 
 ```env
 REDIS_HOST=redis
 ```
 
-If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database configuration file `config/database.php` and replace the default `127.0.0.1` IP with `redis` for Redis like this:
+If you're using Laravel, and you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database configuration file `config/database.php` and replace the default `127.0.0.1` IP with `redis` for Redis like this:
 
 ```php
 'redis' => [
@@ -599,10 +628,10 @@ SESSION_DRIVER=redis
 composer require predis/predis:^1.0
 ```
 
-5 - You can manually test it from Magento with this code:
+5 - You can manually test it from Laravel with this code:
 
 ```php
-\Cache::store('redis')->put('Mage2dock', 'Awesome', 10);
+\Cache::store('redis')->put('Laradock', 'Awesome', 10);
 ```
 
 
@@ -676,7 +705,7 @@ docker-compose up -d mongo
 ],
 ```
 
-5 - Open your Magento's `.env` file and update the following variables:
+5 - Open your Laravel's `.env` file and update the following variables:
 
 - set the `DB_HOST` to your `mongo`.
 - set the `DB_PORT` to `27017`.
@@ -688,11 +717,11 @@ docker-compose up -d mongo
 ```bash
 composer require jenssegers/mongodb
 ```
-More details about this [here](https://github.com/jenssegers/magento-mongodb#installation).
+More details about this [here](https://github.com/jenssegers/laravel-mongodb#installation).
 
 7 - Test it:
 
-- First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/magento-mongodb#eloquent).
+- First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
 - Enter the Workspace Container.
 - Migrate the Database `php artisan migrate`.
 
@@ -736,7 +765,7 @@ docker-compose up -d adminer
 
 2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
 
-**Note:** We've locked Adminer to version 4.3.0 as at the time of writing [it contained a major bug](https://sourceforge.net/p/adminer/bugs-and-features/548/) preventing PostgreSQL users from logging in. If that bug is fixed (or if you're not using PostgreSQL) feel free to set Adminer to the latest version within [the Dockerfile](https://github.com/mage2dock/mage2dock/blob/master/adminer/Dockerfile#L1): `FROM adminer:latest`
+**Note:** We've locked Adminer to version 4.3.0 as at the time of writing [it contained a major bug](https://sourceforge.net/p/adminer/bugs-and-features/548/) preventing PostgreSQL users from logging in. If that bug is fixed (or if you're not using PostgreSQL) feel free to set Adminer to the latest version within [the Dockerfile](https://github.com/laradock/laradock/blob/master/adminer/Dockerfile#L1): `FROM adminer:latest`
 
 
 
@@ -769,7 +798,7 @@ docker-compose up -d postgres pgadmin
 docker-compose up -d beanstalkd
 ```
 
-2 - Configure Magento to connect to that container by editing the `config/queue.php` config file.
+2 - Configure Laravel to connect to that container by editing the `config/queue.php` config file.
 
 a. first set `beanstalkd` as default queue driver
 b. set the queue host to beanstalkd : `QUEUE_HOST=beanstalkd`
@@ -813,19 +842,20 @@ docker-compose up -d elasticsearch
 
 2 - Open your browser and visit the localhost on port **9200**:  `http://localhost:9200`
 
+> The default username is `user` and the default password is `changeme`.
 
 ### Install ElasticSearch Plugin
 
-1 - Install the ElasticSearch plugin like [delete-by-query](https://www.elastic.co/guide/en/elasticsearch/plugins/current/plugins-delete-by-query.html).
+1 - Install an ElasticSearch plugin.
 
 ```bash
-docker exec {container-name} /usr/share/elasticsearch/bin/plugin install delete-by-query
+docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
 ```
 
 2 - Restart elasticsearch container
 
 ```bash
-docker restart {container-name}
+docker-compose restart elasticsearch
 ```
 
 
@@ -855,7 +885,7 @@ docker-compose up -d selenium
 ## Use RethinkDB
 
 The RethinkDB is an open-source Database for Real-time Web ([RethinkDB](https://rethinkdb.com/)).
-A package ([Magento RethinkDB](https://github.com/duxet/magento-rethinkdb)) is being developed and was released a version for Magento 5.2 (experimental).
+A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is being developed and was released a version for Laravel 5.2 (experimental).
 
 1 - Run the RethinkDB Container (`rethinkdb`) with the `docker-compose up` command.
 
@@ -883,7 +913,7 @@ docker-compose up -d rethinkdb
 ],
 ```
 
-4 - Open your Magento's `.env` file and update the following variables:
+4 - Open your Laravel's `.env` file and update the following variables:
 
 - set the `DB_CONNECTION` to your `rethinkdb`.
 - set the `DB_HOST` to `rethinkdb`.
@@ -943,6 +973,24 @@ docker-compose up -d aws
 
 
 <br>
+<a name="Use-Grafana"></a>
+## Use Grafana
+
+1 - Configure Grafana: Change Port using `GRAFANA_PORT` if you wish to. Default is port 3000.
+
+2 - Run the Grafana Container (`grafana`) with the `docker-compose up`command:
+
+```bash
+docker-compose up -d grafana
+```
+
+3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
+
+4 - Login using the credentials User = `admin` Passwort = `admin`. Change the password in the webinterface if you want to.
+
+
+
+<br>
 <a name="CodeIgniter"></a>
 
 
@@ -954,7 +1002,7 @@ docker-compose up -d aws
 <a name="Install-CodeIgniter"></a>
 ## Install CodeIgniter
 
-To install CodeIgniter 3 on Mage2dock all you have to do is the following simple steps:
+To install CodeIgniter 3 on Laradock all you have to do is the following simple steps:
 
 1 - Open the `docker-compose.yml` file.
 
@@ -974,7 +1022,7 @@ To install CodeIgniter 3 on Mage2dock all you have to do is the following simple
 
 4 - Run `docker-compose restart` if the container was already running, before the step above.
 
-5 - Visit `symfony.dev`
+5 - Visit `symfony.test`
 
 <br>
 <a name="Misc"></a>
@@ -1002,7 +1050,7 @@ For example, if I want the timezone to be `New York`:
     ...
 ```
 
-We also recommend [setting the timezone in Magento](http://www.camroncade.com/managing-timezones-with-magento/).
+We also recommend [setting the timezone in Laravel](http://www.camroncade.com/managing-timezones-with-laravel/).
 
 
 
@@ -1043,9 +1091,6 @@ To change the default forwarded port for ssh:
 			- "2222:22" # Edit this line
     ...
 ```
-
-
-
 
 
 
@@ -1139,21 +1184,21 @@ If you need <a href="#MySQL-access-from-host">MySQL access from your host</a>, d
 <a name="Use-custom-Domain"></a>
 ## Use custom Domain (instead of the Docker IP)
 
-Assuming your custom domain is `magento.dev`
+Assuming your custom domain is `laravel.test`
 
-1 - Open your `/etc/hosts` file and map your localhost address `127.0.0.1` to the `magento.dev` domain, by adding the following:
+1 - Open your `/etc/hosts` file and map your localhost address `127.0.0.1` to the `laravel.test` domain, by adding the following:
 
 ```bash
-127.0.0.1    magento.dev
+127.0.0.1    laravel.test
 ```
 
-2 - Open your browser and visit `{http://magento.dev}`
+2 - Open your browser and visit `{http://laravel.test}`
 
 
 Optionally you can define the server name in the NGINX configuration file, like this:
 
 ```conf
-server_name magento.dev;
+server_name laravel.test;
 ```
 
 
@@ -1301,7 +1346,7 @@ It should be like this:
 <a name="Common-Aliases"></a>
 <br>
 ## Common Terminal Aliases
-When you start your docker container, Mage2dock will copy the `aliases.sh` file located in the `mage2dock/workspace` directory and add sourcing to the container `~/.bashrc` file.
+When you start your docker container, Laradock will copy the `aliases.sh` file located in the `laradock/workspace` directory and add sourcing to the container `~/.bashrc` file.
 
 You are free to modify the `aliases.sh` as you see fit, adding your own aliases (or function macros) to suit your requirements.
 
@@ -1350,12 +1395,12 @@ It should be like this:
 
 
 <br>
-<a name="Install-Magento-Envoy"></a>
-## Install Magento Envoy (Envoy Task Runner)
+<a name="Install-Laravel-Envoy"></a>
+## Install Laravel Envoy (Envoy Task Runner)
 
 1 - Open the `docker-compose.yml` file
 <br>
-2 - Search for the `INSTALL_MAGENTO_ENVOY` argument under the Workspace Container
+2 - Search for the `INSTALL_LARAVEL_ENVOY` argument under the Workspace Container
 <br>
 3 - Set it to `true`
 <br>
@@ -1367,13 +1412,13 @@ It should be like this:
         build:
             context: ./workspace
             args:
-                - INSTALL_MAGENTO_ENVOY=true
+                - INSTALL_LARAVEL_ENVOY=true
     ...
 ```
 
 4 - Re-build the containers `docker-compose build workspace`
 
-[**Magento Envoy Documentation Here**](https://magento.com/docs/5.3/envoy)
+[**Laravel Envoy Documentation Here**](https://laravel.com/docs/5.3/envoy)
 
 
 
@@ -1384,9 +1429,9 @@ It should be like this:
 <br>
 <a name="phpstorm-debugging"></a>
 ## PHPStorm Debugging Guide
-Remote debug Magento web and phpunit tests.
+Remote debug Laravel web and phpunit tests.
 
-[**Debugging Guide Here**](https://github.com/mage2dock/mage2dock/blob/master/_guides/phpstorm.md)
+[**Debugging Guide Here**](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
 
 
 
@@ -1395,10 +1440,10 @@ Remote debug Magento web and phpunit tests.
 
 
 <br>
-<a name="keep-tracking-Mage2dock"></a>
-## Keep track of your Mage2dock changes
+<a name="keep-tracking-Laradock"></a>
+## Keep track of your Laradock changes
 
-1. Fork the Mage2dock repository.
+1. Fork the Laradock repository.
 2. Use that fork as a submodule.
 3. Commit all your changes to your fork.
 4. Pull new stuff from the main repository from time to time.
@@ -1410,15 +1455,15 @@ Remote debug Magento web and phpunit tests.
 
 
 <br>
-<a name="upgrading-mage2dock"></a>
-## Upgrading Mage2dock
+<a name="upgrading-laradock"></a>
+## Upgrading Laradock
 
-Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Mage2dock from v3.* to v4.*:
+Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
 
 1. Stop the docker VM `docker-machine stop {default}`
 2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
-3. Upgrade Mage2dock to `v4.*.*` (`git pull origin master`)
-4. Use Mage2dock as you used to do: `docker-compose up -d nginx mysql`.
+3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
+4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
 
 **Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
@@ -1464,7 +1509,7 @@ Quick Setup giude, (we recommend you check their docs)
 <a name="Docker-Sync"></a>
 ### Workaround B: using d4m-nfs
 
-You can use the d4m-nfs solution in 2 ways, one is using the Mage2dock built it integration, and the other is using the tool separatly. Below is show case of both methods:
+You can use the d4m-nfs solution in 2 ways, one is using the Laradock built it integration, and the other is using the tool separatly. Below is show case of both methods:
 
 
 #### B.1: using the built in d4m-nfs integration
@@ -1476,9 +1521,9 @@ Out of the box, it comes pre-configured for OS X, but using it on Windows is ver
 
 ##### Usage
 
-Mage2dock comes with `sync.sh`, an optional bash script, that automates installing, running and stopping docker-sync.  Note that to run the bash script you may need to change the permissions `chmod 755 sync.sh`
+Laradock comes with `sync.sh`, an optional bash script, that automates installing, running and stopping docker-sync.  Note that to run the bash script you may need to change the permissions `chmod 755 sync.sh`
 
-1) Configure your Mage2dock environment as you would normally do and test your application to make sure that your sites are running correctly.
+1) Configure your Laradock environment as you would normally do and test your application to make sure that your sites are running correctly.
 
 2) Make sure to set `DOCKER_SYNC_STRATEGY` on the `.env`. Read the [syncing strategies](https://github.com/EugenMayer/docker-sync/wiki/8.-Strategies) for details.
 ```
@@ -1493,7 +1538,7 @@ DOCKER_SYNC_STRATEGY=native_osx
 ```bash
 ./sync.sh install
 ```
-3) Start docker-sync and the Mage2dock environment.
+3) Start docker-sync and the Laradock environment.
 Specify the services you want to run, as you would normally do with `docker-compose up`
 ```bash
 ./sync.sh up nginx mysql
@@ -1510,9 +1555,9 @@ You may create bash profile aliases to avoid having to remember and type these c
 Add the following lines to your `~/.bash_profile`:
 
 ```bash
-alias devup="cd /PATH_TO_MAGE2DOCK/mage2dock; ./sync.sh up nginx mysql" #add your services
-alias devbash="cd /PATH_TO_MAGE2DOCK/mage2dock; ./sync.sh bash"
-alias devdown="cd /PATH_TO_MAGE2DOCK/mage2dock; ./sync.sh down"
+alias devup="cd /PATH_TO_LARADOCK/laradock; ./sync.sh up nginx mysql" #add your services
+alias devbash="cd /PATH_TO_LARADOCK/laradock; ./sync.sh bash"
+alias devdown="cd /PATH_TO_LARADOCK/laradock; ./sync.sh down"
 ```
 
 Now from any location on your machine, you can simply run `devup`, `devbash` and `devdown`.
@@ -1536,9 +1581,9 @@ Removing and cleaning up the files and the docker-sync container. Use only if yo
 
 ##### Additional Notes
 
-- You may run mage2dock with or without docker-sync at any time using with the same `.env` and `docker-compose.yml`, because the configuration is overridden automatically when docker-sync is used.
+- You may run laradock with or without docker-sync at any time using with the same `.env` and `docker-compose.yml`, because the configuration is overridden automatically when docker-sync is used.
 - You may inspect the `sync.sh` script to learn each of the commands and even add custom ones.
-- If a container cannot access the files on docker-sync, you may need to set a user on the Dockerfile of that container with an id of 1000 (this is the UID that nginx and php-fpm have configured on mage2dock). Alternatively, you may change the permissions to 777, but this is **not** recommended.
+- If a container cannot access the files on docker-sync, you may need to set a user on the Dockerfile of that container with an id of 1000 (this is the UID that nginx and php-fpm have configured on laradock). Alternatively, you may change the permissions to 777, but this is **not** recommended.
 
 Visit the [docker-sync documentation](https://github.com/EugenMayer/docker-sync/wiki) for more details.
 
@@ -1618,9 +1663,9 @@ docker-compose up ...
 
 
 <br>
-## I see a blank (white) page instead of the Magento 'Welcome' page!
+## I see a blank (white) page instead of the Laravel 'Welcome' page!
 
-Run the following command from the Magento root directory:
+Run the following command from the Laravel root directory:
 
 ```bash
 sudo chmod -R 777 storage bootstrap/cache
@@ -1631,7 +1676,7 @@ sudo chmod -R 777 storage bootstrap/cache
 
 
 <br>
-## I see "Welcome to nginx" instead of the Magento App!
+## I see "Welcome to nginx" instead of the Laravel App!
 
 Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
@@ -1673,14 +1718,14 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 <br>
 ## I get MySQL connection refused
 
-This error sometimes happens because your Magento application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
+This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
 
 * Option A
-  1. Check your running Magento application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Magento container.
+  1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
   2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
 * Option B
-   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Mage2dock docker-compose file currently has this as `mysql`
+   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`
 
 ## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
 
-As stated on [#749](https://github.com/mage2dock/mage2dock/issues/749#issuecomment-293296687), removing the line `RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories` from `nginx/Dockerfile` solves the problem.		
+As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-293296687), removing the line `RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories` from `nginx/Dockerfile` solves the problem.		

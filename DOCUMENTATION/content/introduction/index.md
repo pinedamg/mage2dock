@@ -11,22 +11,22 @@ A full PHP development environment for Docker.
 
 Includes pre-packaged Docker Images, all pre-configured to provide a wonderful PHP development environment.
 
-Mage2dock is well known in the Magento community, as the project started with single focus on running Magento projects on Docker. Later and due to the large adoption from the PHP community, it started supporting other PHP projects like Symfony, CodeIgniter, WordPress, Drupal...
+Laradock is well known in the Laravel community, as the project started with single focus on running Laravel projects on Docker. Later and due to the large adoption from the PHP community, it started supporting other PHP projects like Symfony, CodeIgniter, WordPress, Drupal...
 
 
-![](https://s19.postimg.org/jblfytw9f/mage2dock-logo.jpg)
+![](https://s19.postimg.org/jblfytw9f/laradock-logo.jpg)
 
 ## Quick Overview
 
 Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `Beanstalkd`:
 
-1 - Clone Mage2dock inside your PHP project:
+1 - Clone Laradock inside your PHP project:
 
 ```shell
-git clone https://github.com/Laradock/mage2dock.git
+git clone https://github.com/Laradock/laradock.git
 ```
 
-2 - Enter the mage2dock folder and rename `env-example` to `.env`.
+2 - Enter the laradock folder and rename `env-example` to `.env`.
 
 ```shell
 cp env-example .env
@@ -65,7 +65,7 @@ That's it! enjoy :)
 - Easy to customize any container, with simple edit to the `Dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
 - Pre-configured NGINX to host any code at your root directory.
-- Can use Mage2dock per project, or single Mage2dock for all projects.
+- Can use Laradock per project, or single Laradock for all projects.
 - Easy to install/remove software's in Containers using environment variables.
 - Clean and well structured Dockerfiles (`Dockerfile`).
 - Latest version of the Docker Compose file (`docker-compose`).
@@ -79,7 +79,7 @@ That's it! enjoy :)
 <a name="Supported-Containers"></a>
 ## Supported Software (Images)
 
-In adhering to the separation of concerns principle as promoted by Docker, Mage2dock runs each software on its own Container.
+In adhering to the separation of concerns principle as promoted by Docker, Laradock runs each software on its own Container.
 You can turn On/Off as many instances of as any container without worrying about the configurations, everything works like a charm.
 
 - **Database Engines:**
@@ -97,9 +97,9 @@ Beanstalkd - RabbitMQ - PHP Worker
 - **Queueing Management:**
 Beanstalkd Console - RabbitMQ Console
 - **Random Tools:**
-HAProxy - Certbot - Blackfire - Selenium - Jenkins - ElasticSearch - Kibana - Mailhog - Minio - Varnish - Swoole - Magento Echo...
+HAProxy - Certbot - Blackfire - Selenium - Jenkins - ElasticSearch - Kibana - Grafana - Mailhog - MailDev - Minio - Varnish - Swoole - Laravel Echo...
 
-Mage2dock introduces the **Workspace** Image, as a development environment.
+Laradock introduces the **Workspace** Image, as a development environment.
 It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.
 
 **Workspace Image Tools**
@@ -115,6 +115,31 @@ You can choose, which tools to install in your workspace container and other con
 If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
 
 
+
+## Sponsors
+
+
+
+
+
+Support this project by becoming a sponsor. 
+
+Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website. [[Become a sponsor](https://opencollective.com/laradock#sponsor)]
+
+<a href="https://opencollective.com/laradock/sponsor/0/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/1/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/2/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/3/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/4/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/5/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/6/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/7/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/8/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/laradock/sponsor/9/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/9/avatar.svg"></a>
+
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock.svg' />
+</a>
 
 
 
@@ -152,11 +177,11 @@ Most importantly Docker can run on Development and on Production (same environme
 
 What's better than a **Demo Video**:
 
-- Mage2dock v5.* (should be next!)
-- Mage2dock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
-- Mage2dock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
-- Mage2dock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
-- Mage2dock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
+- Laradock v5.* (should be next!)
+- Laradock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
+- Laradock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
+- Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
+- Laradock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
 
 
 
@@ -169,4 +194,26 @@ What's better than a **Demo Video**:
 
 You are welcome to join our chat room on Gitter.
 
-[![Gitter](https://badges.gitter.im/Laradock/mage2dock.svg)](https://gitter.im/Laradock/mage2dock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+
+
+
+
+<a name="Donations"></a>
+## Donations
+
+> Help keeping the project development going, by [contributing](http://laradock.io/contributing) or donating a little. 
+> Thanks in advance.
+
+Donate directly via [Paypal](https://www.paypal.me/mzalt)
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
+
+or become a backer on [Open Collective](https://opencollective.com/laradock#backer)
+
+<a href="https://opencollective.com/laradock#backers" target="_blank"><img src="https://opencollective.com/laradock/backers.svg?width=890"></a>
+
+or show your support via [Beerpay](https://beerpay.io/laradock/laradock) 
+
+[![Beerpay](https://beerpay.io/laradock/laradock/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)

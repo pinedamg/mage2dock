@@ -6,8 +6,6 @@ services:
 
     applications:
       image: tianon/true
-      volumes:
-        - ${APPLICATION}:/var/www
 
 ### Workspace Utilities Container ###########################
 
@@ -19,6 +17,8 @@ services:
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
+          - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
+          - INSTALL_IMAP=${WORKSPACE_INSTALL_IMAP}
           - INSTALL_MONGO=${WORKSPACE_INSTALL_MONGO}
           - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
           - INSTALL_MSSQL=${WORKSPACE_INSTALL_MSSQL}
@@ -30,8 +30,8 @@ services:
           - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
           - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
-          - INSTALL_MAGENTO_ENVOY=${WORKSPACE_INSTALL_MAGENTO_ENVOY}
-          - INSTALL_MAGENTO_INSTALLER=${WORKSPACE_INSTALL_MAGENTO_INSTALLER}
+          - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
+          - INSTALL_LARAVEL_INSTALLER=${WORKSPACE_INSTALL_LARAVEL_INSTALLER}
           - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_DEPLOYER}
           - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LINUXBREW}
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
@@ -39,8 +39,12 @@ services:
           - INSTALL_PYTHON=${WORKSPACE_INSTALL_PYTHON}
           - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${WORKSPACE_INSTALL_IMAGEMAGICK}
+          - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
+          - INSTALL_DUSK_DEPS=${WORKSPACE_INSTALL_DUSK_DEPS}
+          - INSTALL_PG_CLIENT=${WORKSPACE_INSTALL_PG_CLIENT}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
+          - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
@@ -78,6 +82,8 @@ services:
           - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
           - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
+          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
+          - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
           - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
@@ -107,6 +113,8 @@ services:
       build:
         context: ./php-worker
         dockerfile: "Dockerfile-${PHP_VERSION}"
+        args:
+          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
       volumes_from:
         - applications
       depends_on:
@@ -136,8 +144,7 @@ services:
       depends_on:
         - php-fpm
       networks:
-        frontend:
-          ipv4_address: "${}1"
+        - frontend
         - backend
 
 ### Blackfire Container #################################
@@ -195,7 +202,8 @@ services:
     minio:
       build: ./minio
       volumes:
-        - minio:/export
+        - ${DATA_SAVE_PATH}/minio/data:/export
+        - ${DATA_SAVE_PATH}/minio/config:/root/.minio
       ports:
         - "${MINIO_PORT}:9000"
       environment:
@@ -203,6 +211,7 @@ services:
         - MINIO_SECRET_KEY=secretkey
       networks:
         - frontend
+        - backend
 
 ### MySQL Container #########################################
 
@@ -482,7 +491,7 @@ services:
       ports:
         - "5050:5050"
       volumes:
-        - ${DATA_SAVE_PATH}/pgadmin-backup:/var/lib/pgadmin4/data/storage/pgadmin4
+        - ${DATA_SAVE_PATH}/pgadmin-backup:/var/lib/pgadmin/storage/pgadmin4
       depends_on:
         - postgres
       networks:
@@ -498,7 +507,7 @@ services:
         - elasticsearch-data:/usr/share/elasticsearch/data
         - elasticsearch-plugins:/usr/share/elasticsearch/plugins
       environment:
-        - cluster.name=mage2dock-cluster
+        - cluster.name=laradock-cluster
         - bootstrap.memory_lock=true
         - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       ulimits:
@@ -553,6 +562,17 @@ services:
         - frontend
         - backend
 
+### MailDev Container #######################################
+
+    maildev:
+      build: ./maildev
+      ports:
+        - "${MAILDEV_HTTP_PORT}:80"
+        - "${MAILDEV_SMTP_PORT}:25"
+      networks:
+        - frontend
+        - backend
+
 ### Selenium Container ########################################
 
     selenium:
@@ -602,9 +622,9 @@ services:
       networks:
         - frontend
 
-### Balancer Haproxy ##########################################
+### HAProxy Load Balancer ####################################
 
-    balancer:
+    haproxy:
       build: ./haproxy
       ports:
         - "${HAPROXY_HOST_HTTP_PORT}:8085"
@@ -631,14 +651,26 @@ services:
         - frontend
         - backend
 
-### Magento Echo Server #######################################
-    magento-echo-server:
+### Grafana Container #########################################
+
+    grafana:
       build:
-        context: ./magento-echo-server
+        context: ./grafana
       volumes:
-        - ./magento-echo-server/magento-echo-server.json:/app/magento-echo-server.json:ro
+        - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
       ports:
-        - "${MAGENTO_ECHO_SERVER_PORT}:6001"
+        - "${GRAFANA_PORT}:3000"
+      networks:
+        - backend
+
+### Laravel Echo Server #######################################
+    laravel-echo-server:
+      build:
+        context: ./laravel-echo-server
+      volumes:
+        - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
+      ports:
+        - "${LARAVEL_ECHO_SERVER_PORT}:6001"
       links:
         - redis
       networks:
@@ -662,14 +694,14 @@ networks:
     driver: "bridge"
     ipam:
       config:
-      - subnet: ${MAGENTO_FRONTEND_SUBNET}.0/24
-        gateway: ${MAGENTO_FRONTEND_SUBNET}.254
+      - subnet: ${LARADOCK_FRONTEND_SUBNET}.0/16
+        gateway: ${LARADOCK_FRONTEND_SUBNET}.254
   backend:
     driver: "bridge"
     ipam:
       config:
-      - subnet: ${MAGENTO_BACKEND_SUBNET}.0/24
-        gateway: ${MAGENTO_BACKEND_SUBNET}.254
+      - subnet: ${LARADOCK_BACKEND_SUBNET}.0/16
+        gateway: ${LARADOCK_BACKEND_SUBNET}.254
 
 ### Volumes Setup #############################################
 

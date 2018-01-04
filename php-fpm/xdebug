@@ -64,7 +64,7 @@ xdebug_stop ()
     # If running on Windows, need to prepend with winpty :(
     if [[ $OS_TYPE == "MINGW" ]]; then
         # This is the equivalent of:
-        # winpty docker exec -it mage2dock_php-fpm_1 bash -c 'bla bla bla'
+        # winpty docker exec -it laradock_php-fpm_1 bash -c 'bla bla bla'
         # Thanks to @michaelarnauts at https://github.com/docker/compose/issues/593
         winpty docker exec -it $PHP_FPM_CONTAINER bash -c "${OFF_CMD}"
         docker restart $PHP_FPM_CONTAINER

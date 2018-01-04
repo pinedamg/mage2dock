@@ -1,6 +1,6 @@
 ### Info:
 - Docker version (`$ docker --version`): 
-- Mage2dock commit (`$ git rev-parse HEAD`): 
+- Laradock commit (`$ git rev-parse HEAD`): 
 - System info (Mac, PC, Linux): 
 - System info disto/version: 
 
