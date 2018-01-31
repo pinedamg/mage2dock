@@ -230,6 +230,7 @@ services:
       volumes:
         - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - ${DB_DUMPS}:/dumps
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
@@ -249,6 +250,7 @@ services:
       volumes:
         - ${DATA_SAVE_PATH}/percona:/var/lib/mysql
         - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - ${DB_DUMPS}:/dumps
       ports:
         - "${PERCONA_PORT}:3306"
       networks:
@@ -265,6 +267,7 @@ services:
         - ACCEPT_EULA=Y
       volumes:
         - ${DATA_SAVE_PATH}/mssql:/var/opt/mssql
+        - ${DB_DUMPS}:/dumps
       ports:
         - "${MSSQL_PORT}:1433"
       networks:
@@ -277,6 +280,7 @@ services:
       volumes:
         - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - ${DB_DUMPS}:/dumps
       ports:
         - "${MARIADB_PORT}:3306"
       environment:
@@ -293,6 +297,7 @@ services:
       build: ./postgres
       volumes:
         - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
+        - ${DB_DUMPS}:/dumps
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -328,6 +333,7 @@ services:
         - NEO4J_AUTH=default:secret
       volumes:
         - ${DATA_SAVE_PATH}/neo4j:/var/lib/neo4j/data
+        - ${DB_DUMPS}:/dumps
       networks:
         - backend
 
@@ -339,6 +345,7 @@ services:
         - "${MONGODB_PORT}:27017"
       volumes:
         - ${DATA_SAVE_PATH}/mongo:/data/db
+        - ${DB_DUMPS}:/dumps
       networks:
         - backend
 
@@ -350,6 +357,7 @@ services:
         - "${RETHINKDB_PORT}:8080"
       volumes:
         - ${DATA_SAVE_PATH}/rethinkdb:/data/rethinkdb_data
+        - ${DB_DUMPS}:/dumps
       networks:
         - backend
 
