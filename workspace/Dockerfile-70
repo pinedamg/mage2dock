@@ -77,6 +77,8 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 #####################################
 
 ARG INSTALL_INTL=false
+ENV INSTALL_INTL ${INSTALL_INTL}
+
 RUN if [ ${INSTALL_INTL} = true ]; then \
     # Install intl and requirements
     apt-get update -yqq && \

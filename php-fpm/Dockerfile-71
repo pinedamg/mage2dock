@@ -165,7 +165,7 @@ RUN if [ ${INSTALL_XSL} = true ]; then \
     apt-get update -yqq && \
     apt-get install -y libxslt-dev && \
     docker-php-ext-configure xsl && \
-    docker-php-ext-install xsl
+    docker-php-ext-install xsl \
 ;fi
 
 #####################################
