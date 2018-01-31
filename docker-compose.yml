@@ -150,6 +150,7 @@ services:
 ### Blackfire Container #################################
 
     blackfire:
+      container_name: ${APPLICATION_NAME}_blackfire
       image: blackfire/blackfire
       environment:
         - BLACKFIRE_SERVER_ID=${BLACKFIRE_SERVER_ID}
@@ -186,6 +187,7 @@ services:
 ### HHVM Container ##########################################
 
     hhvm:
+      container_name: ${APPLICATION_NAME}_hhvm
       build: ./hhvm
       volumes_from:
         - applications
@@ -259,6 +261,7 @@ services:
 ### MSSQL Container #########################################
 
     mssql:
+      container_name: ${APPLICATION_NAME}_mssql
       build:
         context: ./mssql
       environment:
@@ -276,6 +279,7 @@ services:
 ### MariaDB Container #######################################
 
     mariadb:
+      container_name: ${APPLICATION_NAME}_mariadb
       build: ./mariadb
       volumes:
         - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
@@ -294,6 +298,7 @@ services:
 ### PostgreSQL Container ####################################
 
     postgres:
+      container_name: ${APPLICATION_NAME}_postgres
       build: ./postgres
       volumes:
         - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
@@ -310,6 +315,7 @@ services:
 ### PostgreSQL PostGis Container ############################
 
     postgres-postgis:
+      container_name: ${APPLICATION_NAME}_postgis
       build: ./postgres-postgis
       volumes:
         - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
@@ -325,6 +331,7 @@ services:
 ### Neo4j Container #########################################
 
     neo4j:
+      container_name: ${APPLICATION_NAME}_neo4j
       build: ./neo4j
       ports:
         - "7474:7474"
@@ -340,6 +347,7 @@ services:
 ### MongoDB Container #######################################
 
     mongo:
+      container_name: ${APPLICATION_NAME}_mongo
       build: ./mongo
       ports:
         - "${MONGODB_PORT}:27017"
@@ -364,6 +372,7 @@ services:
 ### Redis Container #########################################
 
     redis:
+      container_name: ${APPLICATION_NAME}_redis
       build: ./redis
       volumes:
         - ${DATA_SAVE_PATH}/redis:/data
@@ -375,6 +384,7 @@ services:
 ### Aerospike c Container ###################################
 
     aerospike:
+      container_name: ${APPLICATION_NAME}_aerospike
       build: ./aerospike
       volumes_from:
         - workspace
@@ -391,6 +401,7 @@ services:
 ### Memcached Container #####################################
 
     memcached:
+      container_name: ${APPLICATION_NAME}_memcached
       build: ./memcached
       volumes:
         - ${DATA_SAVE_PATH}/memcached:/var/lib/memcached
@@ -404,6 +415,7 @@ services:
 ### Beanstalkd Container ####################################
 
     beanstalkd:
+      container_name: ${APPLICATION_NAME}_beanstalkd
       build: ./beanstalkd
       ports:
         - "${BEANSTALKD_HOST_PORT}:11300"
@@ -416,6 +428,7 @@ services:
 ### RabbitMQ Container ######################################
 
     rabbitmq:
+      container_name: ${APPLICATION_NAME}_rabbitmq
       build: ./rabbitmq
       ports:
         - "${RABBITMQ_NODE_HOST_PORT}:5672"
@@ -444,6 +457,7 @@ services:
 ### Caddy Server Container ##################################
 
     caddy:
+      container_name: ${APPLICATION_NAME}_caddy
       build: ./caddy
       volumes_from:
         - applications
@@ -463,6 +477,7 @@ services:
 ### phpMyAdmin Container ####################################
 
     phpmyadmin:
+      container_name: ${APPLICATION_NAME}_phpmyadmin
       build: ./phpmyadmin
       environment:
         - PMA_ARBITRARY=1
@@ -480,6 +495,7 @@ services:
 ### Adminer Container ####################################
 
     adminer:
+      container_name: ${APPLICATION_NAME}_adminer
       build:
         context: ./adminer
         args:
@@ -510,6 +526,7 @@ services:
 ### ElasticSearch Container #################################
 
     elasticsearch:
+      container_name: ${APPLICATION_NAME}_elasticsearch
       build: ./elasticsearch
       volumes:
         - elasticsearch-data:/usr/share/elasticsearch/data
@@ -562,6 +579,7 @@ services:
 ### Mailhog Container #########################################
 
     mailhog:
+      container_name: ${APPLICATION_NAME}_mailhog
       build: ./mailhog
       ports:
         - "1025:1025"
@@ -573,6 +591,7 @@ services:
 ### MailDev Container #######################################
 
     maildev:
+      container_name: ${APPLICATION_NAME}_maildev
       build: ./maildev
       ports:
         - "${MAILDEV_HTTP_PORT}:80"
