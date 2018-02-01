@@ -6,7 +6,7 @@ server {
     server_name lc.kitchfix.com;
 
     set $MAGE_ROOT /var/www;
-    set $MAGE_MODE develop;
+    set $MAGE_MODE developer;
 
     error_log /var/log/nginx/magento_error.log;
     access_log /var/log/nginx/magento_access.log;
