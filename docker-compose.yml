@@ -59,8 +59,9 @@ services:
         - "${WORKSPACE_SSH_PORT}:22"
       tty: true
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${WORKSPACE_HOST_ID}
 
 ### PHP-FPM Container #######################################
 
@@ -144,8 +145,9 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${NGINX_HOST_ID}
 
 ### Blackfire Container #################################
 
@@ -181,8 +183,9 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${APACHE_HOST_ID}
 
 ### HHVM Container ##########################################
 
@@ -196,8 +199,9 @@ services:
       depends_on:
         - workspace
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${HHVM_HOST_ID}
 
 ### Minio Container #########################################
 
@@ -212,8 +216,9 @@ services:
         - MINIO_ACCESS_KEY=access
         - MINIO_SECRET_KEY=secretkey
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${MINIO_HOST_ID}
 
 ### MySQL Container #########################################
 
@@ -471,8 +476,9 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${CADDY_HOST_ID}
 
 ### phpMyAdmin Container ####################################
 
@@ -489,8 +495,9 @@ services:
       depends_on:
         - "${PMA_DB_ENGINE}"
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${PMA_HOST_ID}
 
 ### Adminer Container ####################################
 
@@ -505,8 +512,9 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${ADM_HOST_ID}
 
 ### pgAdmin Container #######################################
 
@@ -519,9 +527,9 @@ services:
       depends_on:
         - postgres
       networks:
-        - frontend
-        - backend
-
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${PGADMIN_HOST_ID}
 
 ### ElasticSearch Container #################################
 
@@ -546,9 +554,9 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
-
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${ELASTICSEARCH_HOST_ID}
 
 ### Kibana Container #######################################
 
@@ -559,8 +567,9 @@ services:
       depends_on:
         - elasticsearch
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${KIBANA_HOST_ID}
 
 ### Certbot Container ##################################
 
@@ -585,8 +594,9 @@ services:
         - "1025:1025"
         - "8025:8025"
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${MAILHOG_HOST_ID}
 
 ### MailDev Container #######################################
 
@@ -597,8 +607,9 @@ services:
         - "${MAILDEV_HTTP_PORT}:80"
         - "${MAILDEV_SMTP_PORT}:25"
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${MAILDEV_HOST_ID}
 
 ### Selenium Container ########################################
 
@@ -609,7 +620,8 @@ services:
       volumes:
         - /dev/shm:/dev/shm
       networks:
-        - frontend
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${SELENIUM_HOST_ID}
 
 ### Varnish Proxy 1 ##########################################
 
@@ -628,7 +640,8 @@ services:
       links:
         - workspace
       networks:
-        - frontend
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${VARNISH_PROXY1_HOST_ID}
 
 ### Varnish Proxy 2 ##########################################
 
@@ -647,7 +660,8 @@ services:
       links:
         - workspace
       networks:
-        - frontend
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${VARNISH_PROXY2_HOST_ID}
 
 ### HAProxy Load Balancer ####################################
 
@@ -675,8 +689,9 @@ services:
         - ${JENKINS_HOME}:/var/jenkins_home
         - /var/run/docker.sock:/var/run/docker.sock
       networks:
-        - frontend
-        - backend
+        backend:
+        frontend:
+          ipv4_address: ${LARADOCK_FRONTEND_SUBNET}.${JENKINS_HOST_ID}
 
 ### Grafana Container #########################################
 

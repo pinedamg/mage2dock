@@ -16,7 +16,7 @@ LARADOCK_BACKEND_SUBNET=174.20.0
 
 APPLICATION=../code
 
-### Application DUMPS ###################################################################################################
+### Application DUMPS ##################################################################################################
 # Point to your code, will be available at `/dumps`.
 
 DB_DUMPS=../dumps
@@ -72,6 +72,7 @@ CHANGE_SOURCE=false
 
 ### WORKSPACE ##########################################################################################################
 
+WORKSPACE_HOST_ID=1
 WORKSPACE_INSTALL_XDEBUG=true
 WORKSPACE_INSTALL_LDAP=false
 WORKSPACE_INSTALL_SOAP=true
@@ -139,6 +140,7 @@ PHP_WORKER_INSTALL_PGSQL=false
 
 ### NGINX ##############################################################################################################
 
+NGINX_HOST_ID=2
 NGINX_HOST_HTTP_PORT=80
 NGINX_HOST_HTTPS_PORT=443
 NGINX_HOST_LOG_PATH=./logs/nginx/
@@ -149,6 +151,7 @@ NGINX_PHP_UPSTREAM_PORT=9000
 
 ### APACHE #############################################################################################################
 
+APACHE_HOST_ID=2
 APACHE_HOST_HTTP_PORT=80
 APACHE_HOST_HTTPS_PORT=443
 APACHE_HOST_LOG_PATH=./logs/apache2
@@ -156,6 +159,14 @@ APACHE_SITES_PATH=./apache2/sites
 APACHE_PHP_UPSTREAM_CONTAINER=php-fpm
 APACHE_PHP_UPSTREAM_PORT=9000
 APACHE_PHP_UPSTREAM_TIMEOUT=60
+
+### HHVM ###############################################################################################################
+
+HHVM_HOST_ID=2
+
+### MINIO ##############################################################################################################
+
+MINIO_HOST_ID=4
 
 ### MYSQL ##############################################################################################################
 
@@ -210,13 +221,19 @@ RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT=15671
 RABBITMQ_DEFAULT_USER=guest
 RABBITMQ_DEFAULT_PASS=guest
 
+### PGADMIN ############################################################################################################
+
+PGADMIN_HOST_ID=6
+
 ### ELASTICSEARCH ######################################################################################################
 
+ELASTICSEARCH_HOST_ID=7
 ELASTICSEARCH_HOST_HTTP_PORT=9200
 ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
 
 ### KIBANA #############################################################################################################
 
+KIBANA_HOST_ID=8
 KIBANA_HTTP_PORT=5601
 
 ### MEMCACHED ##########################################################################################################
@@ -235,6 +252,7 @@ BEANSTALKD_HOST_PORT=11300
 
 ### SELENIUM ###########################################################################################################
 
+SELENIUM_HOST_ID=10
 SELENIUM_PORT=4444
 
 ### MINIO ##############################################################################################################
@@ -243,10 +261,13 @@ MINIO_PORT=9000
 
 ### ADMINER ############################################################################################################
 
+ADM_HOST_ID=3
 ADM_PORT=8080
 ADM_INSTALL_MSSQL=false
 
 ### PHP MY ADMIN #######################################################################################################
+
+PMA_HOST_ID=3
 
 # Accepted values: mariadb - mysql
 
@@ -259,8 +280,13 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=8080
 
+### MAILHOG ############################################################################################################
+
+MAILHOG_HOST_ID=9
+
 ### MAILDEV ############################################################################################################
 
+MAILDEV_HOST_ID=10
 MAILDEV_HTTP_PORT=1080
 MAILDEV_SMTP_PORT=25
 
@@ -275,12 +301,14 @@ VARNISHD_PARAMS=-p default_ttl=3600 -p default_grace=3600
 
 # Proxy 1
 
+VARNISH_PROXY1_HOST_ID=11
 VARNISH_PROXY1_CACHE_SIZE=128m
 VARNISH_PROXY1_BACKEND_HOST=workspace
 VARNISH_PROXY1_SERVER=SERVER1
 
 # Proxy 2
 
+VARNISH_PROXY2_HOST_ID=12
 VARNISH_PROXY2_CACHE_SIZE=128m
 VARNISH_PROXY2_BACKEND_HOST=workspace
 VARNISH_PROXY2_SERVER=SERVER2
@@ -291,6 +319,7 @@ HAPROXY_HOST_HTTP_PORT=8085
 
 ### JENKINS ############################################################################################################
 
+JENKINS_HOST_ID=13
 JENKINS_HOST_HTTP_PORT=8090
 JENKINS_HOST_SLAVE_AGENT_PORT=50000
 JENKINS_HOME=./jenkins/jenkins_home
@@ -327,6 +356,7 @@ MONGODB_PORT=27017
 
 ### CADDY ##############################################################################################################
 
+CADDY_HOST_ID=5
 CADDY_HOST_HTTP_PORT=80
 CADDY_HOST_HTTPS_PORT=443
 CADDY_HOST_LOG_PATH=./logs/caddy
@@ -336,7 +366,7 @@ CADDY_CUSTOM_CADDYFILE=./caddy/Caddyfile
 
 LARAVEL_ECHO_SERVER_PORT=6001
 
-### DOCKER-SYNC ################################################################################################
+### DOCKER-SYNC ########################################################################################################
 
 # osx: 'native_osx' (default)
 # windows: 'unison'
