@@ -108,6 +108,14 @@ alias git-revert="git reset --hard && git clean -df"
 alias gs="git status"
 alias whoops="git reset --hard && git clean -df"
 
+# Magento aliases
+alias mgbin="./bin/magento"
+alias mgcache="mgbin cache:flush && mgbin cache:clean"
+alias mgupg="mgbin setup:upgrade"
+alias mgdi="mgbin setup:di:compile"
+alias mgst="mgbin setup:static-content:deploy"
+alias mgchmod"chmod 0777 -R var/ pub/"
+
 # Create a new directory and enter it
 function mkd() {
     mkdir -p "$@" && cd "$@"

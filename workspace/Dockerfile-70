@@ -442,6 +442,23 @@ RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
 USER laradock
 
 #####################################
+# N98 MAGERUN Installer:
+#####################################
+USER root
+
+ARG INSTALL_N98_MAGERUN=true
+ENV INSTALL_N98_MAGERUN ${INSTALL_N98_MAGERUN}
+
+RUN if [ ${INSTALL_N98_MAGERUN} = true ]; then \
+    # Install the N98 MageRun
+    cd /usr/local/bin && \
+    curl -O https://files.magerun.net/n98-magerun2.phar && \
+	chmod +x /usr/local/bin/n98-magerun2.phar \
+;fi
+
+USER laradock
+
+#####################################
 # Deployer:
 #####################################
 USER laradock
