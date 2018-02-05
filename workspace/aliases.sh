@@ -114,7 +114,8 @@ alias mgcache="mgbin cache:flush && mgbin cache:clean"
 alias mgupg="mgbin setup:upgrade"
 alias mgdi="mgbin setup:di:compile"
 alias mgst="mgbin setup:static-content:deploy"
-alias mgchmod"chmod 0777 -R var/ pub/"
+alias mgchmod="chmod 0777 -R var/ pub/"
+alias mgall="mgcache && mgupg && mgdi && mgst && mgchmod && mgchmod"
 
 # Create a new directory and enter it
 function mkd() {
