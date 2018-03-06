@@ -50,7 +50,7 @@ alias cla="clear && ls -l"
 alias cll="clear && ls -la"
 alias cls="clear && ls"
 alias code="cd /var/www"
-alias ea="vi ~/aliases"
+alias ea="vim ~/aliases.sh"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
@@ -114,8 +114,8 @@ alias mgchmod="chmod 0777 -R var/ pub/"
 alias mgcache="mgbin cache:flush && mgbin cache:clean; mgchmod"
 alias mgupg="mgbin setup:upgrade && mgcache"
 alias mgdi="mgbin setup:di:compile && mgcache"
-alias mgst="mgbin setup:static-content:deploy && mgcache; mgchmod"
-alias mgall="mgcache && mgupg && mgdi && mgst && mgchmod; mgchmod"
+alias mgst="mgbin setup:static-content:deploy && mgcache ; mgchmod"
+alias mgall="mgcache && mgupg && mgdi && mgst && mgchmod ; mgchmod"
 alias mgreidx="mgbin indexer:reindex"
 
 #N98 MageRun Aliases
