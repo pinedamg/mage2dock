@@ -118,6 +118,13 @@ alias mgst="mgbin setup:static-content:deploy && mgcache; mgchmod"
 alias mgall="mgcache && mgupg && mgdi && mgst && mgchmod; mgchmod"
 alias mgreidx="mgbin indexer:reindex"
 
+#N98 MageRun Aliases
+if [ -n $INSTALL_N98_MAGERUN ]; then
+    alias mr="n98-magerun2.phar"
+    alias mradminreset="mr admin:user:unlock $MAGE_ADMIN_USER && mr admin:user:change-password $MAGE_ADMIN_USER $MAGE_ADMIN_PASS"
+    alias mradmincreate="mr admin:user:change-password $MAGE_ADMIN_USER $MAGE_ADMIN_PASS $MAGE_ADMIN_EMAIL $MAGE_ADMIN_FIRSTNAME $MAGE_ADMIN_LASTNAME"
+fi
+
 # Create a new directory and enter it
 function mkd() {
     mkdir -p "$@" && cd "$@"

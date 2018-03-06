@@ -70,6 +70,18 @@ CHANGE_SOURCE=false
 # Containers Customization
 ###########################################################
 
+### MAGENTO ############################################################################################################
+
+MAGE_ADMIN_USER=admin
+MAGE_ADMIN_PASS=password123
+MAGE_ADMIN_FIRSTNAME=Admin
+MAGE_ADMIN_LASTNAME=Mage2Dock
+
+MAGE_USER_EMAIL=customer@email.com
+MAGE_USER_PASS=password123
+MAGE_USER_FIRSTNAME=Customer
+MAGE_USER_LASTNAME=Test
+
 ### WORKSPACE ##########################################################################################################
 
 WORKSPACE_HOST_ID=1
