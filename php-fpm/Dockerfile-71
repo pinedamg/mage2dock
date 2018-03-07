@@ -161,6 +161,8 @@ RUN if [ ${INSTALL_BCMATH} = true ]; then \
 #####################################
 
 ARG INSTALL_XSL=false
+ENV INSTALL_XSL ${INSTALL_XSL}
+
 RUN if [ ${INSTALL_XSL} = true ]; then \
     apt-get update -yqq && \
     apt-get install -y libxslt-dev && \
