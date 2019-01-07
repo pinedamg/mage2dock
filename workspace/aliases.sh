@@ -110,13 +110,16 @@ alias whoops="git reset --hard && git clean -df"
 
 # Magento aliases
 alias mgbin="./bin/magento"
-alias mgchmod="chmod 0777 -R var/ pub/"
+alias mgchmod="chmod 0777 -R var/ pub/ generated/ app/etc/"
 alias mgcache="mgbin cache:flush && mgbin cache:clean; mgchmod"
 alias mgupg="mgbin setup:upgrade && mgcache"
 alias mgdi="mgbin setup:di:compile && mgcache"
 alias mgst="mgbin setup:static-content:deploy && mgcache ; mgchmod"
 alias mgall="mgcache && mgupg && mgdi && mgst && mgchmod ; mgchmod"
 alias mgreidx="mgbin indexer:reindex"
+alias mgmodena="mgbin module:enable"
+alias mgmoddis="mgbin module:disable"
+alias mgmodls="mgbin module:status"
 
 #N98 MageRun Aliases
 if [ -n $INSTALL_N98_MAGERUN ]; then
