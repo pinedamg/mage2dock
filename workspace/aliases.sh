@@ -68,7 +68,7 @@ alias fresh="php artisan migrate:fresh"
 alias migrate="php artisan migrate"
 alias refresh="php artisan migrate:refresh"
 alias rollback="php artisan migrate:rollback"
-alias seed="php artisan:seed"
+alias seed="php artisan db:seed"
 alias serve="php artisan serve --quiet &"
 
 alias phpunit="./vendor/bin/phpunit"
@@ -110,13 +110,19 @@ alias whoops="git reset --hard && git clean -df"
 
 # Magento aliases
 alias mgbin="./bin/magento"
-alias mgchmod="chmod 0777 -R var/ pub/"
+alias mgchmod="chmod 0777 -R var/ pub/ generated/ app/etc/"
 alias mgcache="mgbin cache:flush && mgbin cache:clean; mgchmod"
 alias mgupg="mgbin setup:upgrade && mgcache"
 alias mgdi="mgbin setup:di:compile && mgcache"
 alias mgst="mgbin setup:static-content:deploy && mgcache ; mgchmod"
 alias mgall="mgcache && mgupg && mgdi && mgst && mgchmod ; mgchmod"
 alias mgreidx="mgbin indexer:reindex"
+alias mgmodena="mgbin module:enable"
+alias mgmoddis="mgbin module:disable"
+alias mgmodls="mgbin module:status"
+alias mgoff="mgbin maintenance:enable"
+alias mgon="mgbin maintenance:disable"
+alias mgprodrefresh="mgoff ; mgcache ; mgdi ; mgst ; mgon ; mgchmod"
 
 #N98 MageRun Aliases
 if [ -n $INSTALL_N98_MAGERUN ]; then
