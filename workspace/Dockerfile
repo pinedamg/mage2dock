@@ -317,7 +317,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 # ADD for REMOTE debugging
 COPY ./xdebug.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini
 
-RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=0/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
     sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
     sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini
 
@@ -990,6 +990,30 @@ ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
     apt-get update -yqq && \
     apt-get -y install mysql-client \
+;fi
+
+###########################################################################
+# FFMpeg:
+###########################################################################
+
+USER root
+
+ARG INSTALL_FFMPEG=false
+
+RUN if [ ${INSTALL_FFMPEG} = true ]; then \
+  apt-get -y install ffmpeg \
+;fi
+
+###########################################################################
+# N98 MAGERUN:
+###########################################################################
+
+ARG INSTALL_N98_MAGERUN=false
+
+RUN if [ ${INSTALL_N98_MAGERUN} = true ]; then \
+    curl -sS -O https://files.magerun.net/n98-magerun2-latest.phar \
+    && mv n98-magerun2-latest.phar /usr/local/bin/magerun && \
+    && chmod +x /usr/local/bin/magerun \
 ;fi
 
 ###########################################################################
