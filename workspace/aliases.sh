@@ -46,8 +46,8 @@ alias h="history"
 alias j="jobs"
 alias e='exit'
 alias c="clear"
-alias cla="clear && ls -l"
-alias cll="clear && ls -la"
+alias cla="clear && ls -la"
+alias cll="clear && ls -l"
 alias cls="clear && ls"
 alias code="cd /var/www"
 alias ea="vim ~/aliases.sh"
@@ -107,10 +107,16 @@ alias gd="git --no-pager diff"
 alias git-revert="git reset --hard && git clean -df"
 alias gs="git status"
 alias whoops="git reset --hard && git clean -df"
+alias glog="git log --oneline --decorate --graph"
+alias gloga="git log --oneline --decorate --graph --all"
+alias gsh="git show"
+alias grb="git rebase -i"
+alias gbr="git branch"
+alias gc="git commit"
+alias gck="git checkout"
 
 # Magento aliases
 alias mgbin="./bin/magento"
-alias mgchmod="chmod 0777 -R var/ pub/ generated/ app/etc/"
 alias mgcache="mgbin cache:flush && mgbin cache:clean; mgchmod"
 alias mgupg="mgbin setup:upgrade && mgcache"
 alias mgdi="mgbin setup:di:compile && mgcache"
@@ -124,12 +130,23 @@ alias mgoff="mgbin maintenance:enable"
 alias mgon="mgbin maintenance:disable"
 alias mgprodrefresh="mgoff ; mgcache ; mgdi ; mgst ; mgon ; mgchmod"
 
+# XDebug
+alias xdebug-var='export XDEBUG_CONFIG="idekey=PHPSTORM"'
+
 #N98 MageRun Aliases
 if [ -n $INSTALL_N98_MAGERUN ]; then
     alias mr="n98-magerun2.phar"
     alias mradminreset="mr admin:user:unlock $MAGE_ADMIN_USER && mr admin:user:change-password $MAGE_ADMIN_USER $MAGE_ADMIN_PASS"
     alias mradmincreate="mr admin:user:change-password $MAGE_ADMIN_USER $MAGE_ADMIN_PASS $MAGE_ADMIN_EMAIL $MAGE_ADMIN_FIRSTNAME $MAGE_ADMIN_LASTNAME"
 fi
+
+# Magento CHMOD
+function mgchmod() {
+    find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+    find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+    chmod -R 777 app/etc/
+    chown -R laradock:laradock .
+}
 
 # Create a new directory and enter it
 function mkd() {

@@ -1,0 +1,5 @@
+#~ MAGENTO START a7d1f26a8218716e0dd2bd21f67933c52a1097393a36a3590c4b9831304b34d2
+* * * * * /usr/bin/php7.1 /var/www/bin/magento cron:run 2>&1 | grep -v "Ran jobs by schedule" >> /var/www/var/log/magento.cron.log
+* * * * * /usr/bin/php7.1 /var/www/update/cron.php >> /var/www/var/log/update.cron.log
+* * * * * /usr/bin/php7.1 /var/www/bin/magento setup:cron:run >> /var/www/var/log/setup.cron.log
+#~ MAGENTO END a7d1f26a8218716e0dd2bd21f67933c52a1097393a36a3590c4b9831304b34d2

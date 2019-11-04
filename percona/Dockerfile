@@ -1,5 +1,4 @@
-ARG PERCONA_VERSION=latest
-FROM percona/percona-server:${PERCONA_VERSION}
+FROM percona:5.7
 
 LABEL maintainer="DTUNES <diegotdai@gmai.com>"
 
