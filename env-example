@@ -212,6 +212,15 @@ PHP_FPM_INSTALL_SSHPASS=false
 PHP_FPM_INSTALL_MAILPARSE=false
 PHP_FPM_FFMPEG=false
 PHP_FPM_ADDITIONAL_LOCALES="es_ES.UTF-8 fr_FR.UTF-8"
+PHP_FPM_INSTALL_NEWRELIC=false
+
+### NEW_RELIC #############################################
+
+# Agent Version can be check from https://download.newrelic.com/php_agent/archive/
+NEW_RELIC_AGENT_VERSION=9.3.0.248
+NEW_RELIC_LICENSE_KEY=
+NEW_RELIC_APPNAME="New Relic PHP Container"
+NEW_RELIC_DAEMON_ADDRESS=daemon:31339
 
 ### PHP_WORKER ############################################
 

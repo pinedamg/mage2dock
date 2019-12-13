@@ -186,7 +186,7 @@ RUN if [ ${INSTALL_PHPDBG} = true ]; then \
 
 ARG INSTALL_BLACKFIRE=false
 
-RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
+RUN if [ ${INSTALL_BLACKFIRE} = true ]; then \
     version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
     && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp \
@@ -765,6 +765,33 @@ RUN if [ ${INSTALL_MAILPARSE} = true ]; then \
     printf "\n" | pecl install -o -f mailparse \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable mailparse \
+;fi
+
+###########################################################################
+# NEW_RELIC_AGENT
+###########################################################################
+
+ARG NEW_RELIC_AGENT_VERSION
+ENV NEW_RELIC_AGENT_VERSION ${NEW_RELIC_AGENT_VERSION}
+ARG NEW_RELIC_LICENSE_KEY
+ENV NEW_RELIC_LICENSE_KEY ${NEW_RELIC_LICENSE_KEY}
+ARG NEW_RELIC_APPNAME
+ENV NEW_RELIC_APPNAME ${NEW_RELIC_APPNAME}
+ARG NEW_RELIC_DAEMON_ADDRESS
+ENV NEW_RELIC_DAEMON_ADDRESS ${NEW_RELIC_DAEMON_ADDRESS}
+
+ARG INSTALL_NEWRELIC=false
+
+RUN if [ ${INSTALL_NEWRELIC} = true ]; then \
+  curl -L "https://download.newrelic.com/php_agent/archive/${NEW_RELIC_AGENT_VERSION}/newrelic-php5-${NEW_RELIC_AGENT_VERSION}-linux.tar.gz" | tar -C /tmp -zx \
+   && export NR_INSTALL_USE_CP_NOT_LN=1 \
+   && export NR_INSTALL_SILENT=1 \
+   && /tmp/newrelic-php5-*/newrelic-install install \
+   && rm -rf /tmp/newrelic-php5-* /tmp/nrinstall* \
+   && sed -i -e s/\"REPLACE_WITH_REAL_KEY\"/${NEW_RELIC_LICENSE_KEY}/ \
+   -e s/newrelic.appname[[:space:]]=[[:space:]].\*/newrelic.appname="${NEW_RELIC_APPNAME}"/ \
+   -e s/\;newrelic.daemon.address[[:space:]]=[[:space:]].\*/newrelic.daemon.address="${NEW_RELIC_DAEMON_ADDRESS}"/ \
+      /usr/local/etc/php/conf.d/newrelic.ini \
 ;fi
 
 ###########################################################################

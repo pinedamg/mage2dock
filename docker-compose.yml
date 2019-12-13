@@ -197,6 +197,11 @@ services:
         - 'INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}'
         - 'INSTALL_MAILPARSE=${PHP_FPM_INSTALL_MAILPARSE}'
         - 'INSTALL_PCNTL=${PHP_FPM_INSTALL_PCNTL}'
+        - 'INSTALL_NEWRELIC=${PHP_FPM_INSTALL_NEWRELIC}'
+        - 'NEW_RELIC_AGENT_VERSION=${NEW_RELIC_AGENT_VERSION}'
+        - 'NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}'
+        - 'NEW_RELIC_APPNAME=${NEW_RELIC_APPNAME}'
+        - 'NEW_RELIC_DAEMON_ADDRESS=${NEW_RELIC_DAEMON_ADDRESS}'
         - 'ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}'
         - 'INSTALL_FFMPEG=${PHP_FPM_FFMPEG}'
         - 'INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}'
@@ -304,6 +309,8 @@ services:
       - php-fpm
     networks:
       - backend
+  daemon:
+    image: newrelic/php-daemon
   apache2:
     build:
       context: ./apache2
@@ -688,13 +695,13 @@ services:
   elasticsearch:
     build: ./elasticsearch
     volumes:
-      - 'elasticsearch:/usr/share/elasticsearch/data'
+      - '${DATA_PATH_HOST}/elasticsearch:/usr/share/elasticsearch/data'
     environment:
       - cluster.name=laradock-cluster
       - node.name=laradock-node
       - bootstrap.memory_lock=true
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-      - cluster.initial_master_nodes=laradock-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+#      - cluster.initial_master_nodes=laradock-node
     ulimits:
       memlock:
         soft: -1
