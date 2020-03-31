@@ -46,11 +46,11 @@ alias h="history"
 alias j="jobs"
 alias e='exit'
 alias c="clear"
-alias cla="clear && ls -la"
-alias cll="clear && ls -l"
+alias cla="clear && ls -l"
+alias cll="clear && ls -la"
 alias cls="clear && ls"
 alias code="cd /var/www"
-alias ea="vim ~/aliases.sh"
+alias ea="vi ~/aliases"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
@@ -63,13 +63,8 @@ alias artisan="php artisan"
 alias cdump="composer dump-autoload -o"
 alias composer:dump="composer dump-autoload -o"
 alias db:reset="php artisan migrate:reset && php artisan migrate --seed"
-alias dusk="php artisan dusk"
-alias fresh="php artisan migrate:fresh"
 alias migrate="php artisan migrate"
-alias refresh="php artisan migrate:refresh"
-alias rollback="php artisan migrate:rollback"
-alias seed="php artisan db:seed"
-alias serve="php artisan serve --quiet &"
+alias seed="php artisan:seed"
 
 alias phpunit="./vendor/bin/phpunit"
 alias pu="phpunit"
@@ -89,9 +84,6 @@ alias reload="source ~/.aliases && echo \"$COL_GREEN ==> Aliases Reloaded... $CO
 alias run="npm run"
 alias tree="xtree"
 
-# Xvfb
-alias xvfb="Xvfb -ac :0 -screen 0 1024x768x16 &"
-
 # requires installation of 'https://www.npmjs.com/package/npms-cli'
 alias npms="npms search"
 # requires installation of 'https://www.npmjs.com/package/package-menu-cli'
@@ -107,46 +99,6 @@ alias gd="git --no-pager diff"
 alias git-revert="git reset --hard && git clean -df"
 alias gs="git status"
 alias whoops="git reset --hard && git clean -df"
-alias glog="git log --oneline --decorate --graph"
-alias gloga="git log --oneline --decorate --graph --all"
-alias gsh="git show"
-alias grb="git rebase -i"
-alias gbr="git branch"
-alias gc="git commit"
-alias gck="git checkout"
-
-# Magento aliases
-alias mgbin="./bin/magento"
-alias mgcache="mgbin cache:flush && mgbin cache:clean; mgchmod"
-alias mgupg="mgbin setup:upgrade && mgcache"
-alias mgdi="mgbin setup:di:compile && mgcache"
-alias mgst="mgbin setup:static-content:deploy && mgcache ; mgchmod"
-alias mgall="mgcache && mgupg && mgdi && mgst && mgchmod ; mgchmod"
-alias mgreidx="mgbin indexer:reindex"
-alias mgmodena="mgbin module:enable"
-alias mgmoddis="mgbin module:disable"
-alias mgmodls="mgbin module:status"
-alias mgoff="mgbin maintenance:enable"
-alias mgon="mgbin maintenance:disable"
-alias mgprodrefresh="mgoff ; mgcache ; mgdi ; mgst ; mgon ; mgchmod"
-
-# XDebug
-alias xdebug-var='export XDEBUG_CONFIG="idekey=PHPSTORM"'
-
-#N98 MageRun Aliases
-if [ -n $INSTALL_N98_MAGERUN ]; then
-    alias mr="n98-magerun2.phar"
-    alias mradminreset="mr admin:user:unlock $MAGE_ADMIN_USER && mr admin:user:change-password $MAGE_ADMIN_USER $MAGE_ADMIN_PASS"
-    alias mradmincreate="mr admin:user:change-password $MAGE_ADMIN_USER $MAGE_ADMIN_PASS $MAGE_ADMIN_EMAIL $MAGE_ADMIN_FIRSTNAME $MAGE_ADMIN_LASTNAME"
-fi
-
-# Magento CHMOD
-function mgchmod() {
-    find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
-    find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
-    chmod -R 777 app/etc/
-    chown -R laradock:laradock .
-}
 
 # Create a new directory and enter it
 function mkd() {
