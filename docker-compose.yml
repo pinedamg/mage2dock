@@ -127,7 +127,7 @@ services:
           - INSTALL_YAML=${WORKSPACE_INSTALL_YAML}
           - INSTALL_MAILPARSE=${WORKSPACE_INSTALL_MAILPARSE}
           - INSTALL_GIT_PROMPT=${WORKSPACE_INSTALL_GIT_PROMPT}
-	  - INSTALL_N98_MAGERUN=${WORKSPACE_INSTALL_N98_MAGERUN}
+          - INSTALL_N98_MAGERUN=${WORKSPACE_INSTALL_N98_MAGERUN}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -428,7 +428,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-	- ${DB_DUMPS}:/dumps
+        - ${DB_DUMPS}:/dumps
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
@@ -446,7 +446,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/percona:/var/lib/mysql
         - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-	- ${DB_DUMPS}:/dumps
+        - ${DB_DUMPS}:/dumps
       ports:
         - "${PERCONA_PORT}:3306"
       networks:
@@ -480,7 +480,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-	- ${DB_DUMPS}:/dumps
+        - ${DB_DUMPS}:/dumps
       ports:
         - "${MARIADB_PORT}:3306"
       environment:

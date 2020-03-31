@@ -278,6 +278,7 @@ ARG INSTALL_SOAP=false
 
 RUN if [ ${INSTALL_SOAP} = true ]; then \
   # Install the PHP SOAP extension
+  apt-get update -yqq && \
   apt-get -y install libxml2-dev php${LARADOCK_PHP_VERSION}-soap \
 ;fi
 
