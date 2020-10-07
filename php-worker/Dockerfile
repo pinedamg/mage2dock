@@ -62,8 +62,17 @@ fi
 #Install GD package:
 ARG INSTALL_GD=false
 RUN if [ ${INSTALL_GD} = true ]; then \
-   apk add --update --no-cache libpng-dev; \
+   apk add --update --no-cache freetype-dev libjpeg-turbo-dev jpeg-dev libpng-dev; \
+   docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/ && \
    docker-php-ext-install gd \
+;fi
+
+#Install ImageMagick:
+ARG INSTALL_IMAGEMAGICK=false
+RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+  apk add --update imagemagick-dev imagemagick; \
+  pecl install imagick; \
+  docker-php-ext-enable imagick \
 ;fi
 
 #Install GMP package:
@@ -279,6 +288,16 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
     apk add --update imap-dev openssl-dev && \
     docker-php-ext-configure imap --with-imap --with-imap-ssl && \
     docker-php-ext-install imap \
+;fi
+
+###########################################################################
+# XMLRPC:
+###########################################################################
+
+ARG INSTALL_XMLRPC=false
+
+RUN if [ ${INSTALL_XMLRPC} = true ]; then \
+    docker-php-ext-install xmlrpc \
 ;fi
 
 #

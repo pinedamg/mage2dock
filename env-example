@@ -64,6 +64,10 @@ DOCKER_HOST_IP=10.0.75.1
 # Choose a Remote Interpreter entry matching name. Default is `laradock`
 PHP_IDE_CONFIG=serverName=laradock
 
+### PHP DOWNGRADEOPENSSL TLS AND SECLEVEL #################
+
+PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=false
+
 ### Windows Path ##########################################
 
 # A fix for Windows users, to ensure the application path works
@@ -86,6 +90,8 @@ DOCKER_SYNC_STRATEGY=native_osx
 # If you want to use "Oh My ZSH!" with Laravel autocomplete plugin, set SHELL_OH_MY_ZSH to true.
 
 SHELL_OH_MY_ZSH=false
+SHELL_OH_MY_ZSH_AUTOSUGESTIONS=false
+SHELL_OH_MY_ZSH_ALIASES=false
 
 ###########################################################
 ################ Containers Customization #################
@@ -142,6 +148,7 @@ WORKSPACE_INSTALL_LINUXBREW=false
 WORKSPACE_INSTALL_MC=false
 WORKSPACE_INSTALL_SYMFONY=false
 WORKSPACE_INSTALL_PYTHON=false
+WORKSPACE_INSTALL_PYTHON3=false
 WORKSPACE_INSTALL_POWERLINE=false
 WORKSPACE_INSTALL_SUPERVISOR=false
 WORKSPACE_INSTALL_IMAGE_OPTIMIZERS=false
@@ -153,14 +160,17 @@ WORKSPACE_INSTALL_PHALCON=false
 WORKSPACE_INSTALL_SWOOLE=false
 WORKSPACE_INSTALL_TAINT=false
 WORKSPACE_INSTALL_LIBPNG=false
-WORKSPACE_INSTALL_IONCUBE=true
+WORKSPACE_INSTALL_GRAPHVIZ=false
+WORKSPACE_INSTALL_IONCUBE=false
 WORKSPACE_INSTALL_MYSQL_CLIENT=false
 WORKSPACE_INSTALL_PING=false
 WORKSPACE_INSTALL_SSHPASS=false
 WORKSPACE_INSTALL_INOTIFY=false
 WORKSPACE_INSTALL_FSWATCH=false
 WORKSPACE_INSTALL_YAML=false
+WORKSPACE_INSTALL_RDKAFKA=false
 WORKSPACE_INSTALL_MAILPARSE=false
+WORKSPACE_INSTALL_XMLRPC=false
 WORKSPACE_INSTALL_N98_MAGERUN=true
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
@@ -178,6 +188,9 @@ WORKSPACE_VUE_CLI_SERVE_HOST_PORT=8080
 WORKSPACE_VUE_CLI_UI_HOST_PORT=8001
 WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT=4200
 WORKSPACE_INSTALL_GIT_PROMPT=false
+WORKSPACE_INSTALL_LNAV=false
+WORKSPACE_INSTALL_PROTOC=false
+WORKSPACE_PROTOC_VERSION=latest
 
 ### PHP_FPM ###############################################
 
@@ -223,6 +236,7 @@ PHP_FPM_INSTALL_FAKETIME=false
 PHP_FPM_INSTALL_IONCUBE=true
 PHP_FPM_INSTALL_RDKAFKA=false
 PHP_FPM_INSTALL_GETTEXT=false
+PHP_FPM_INSTALL_XMLRPC=false
 PHP_FPM_FAKETIME=-0
 PHP_FPM_INSTALL_APCU=false
 PHP_FPM_INSTALL_CACHETOOL=false
@@ -244,6 +258,7 @@ PHP_FPM_PGID=1000
 
 PHP_WORKER_INSTALL_BZ2=false
 PHP_WORKER_INSTALL_GD=false
+PHP_WORKER_INSTALL_IMAGEMAGICK=false
 PHP_WORKER_INSTALL_GMP=false
 PHP_WORKER_INSTALL_PGSQL=false
 PHP_WORKER_INSTALL_BCMATH=false
@@ -262,6 +277,7 @@ PHP_WORKER_INSTALL_CASSANDRA=false
 PHP_WORKER_INSTALL_GEARMAN=false
 PHP_WORKER_INSTALL_REDIS=false
 PHP_WORKER_INSTALL_IMAP=false
+PHP_WORKER_INSTALL_XMLRPC=false
 
 PHP_WORKER_PUID=1000
 PHP_WORKER_PGID=1000
@@ -301,6 +317,7 @@ APACHE_PHP_UPSTREAM_CONTAINER=php-fpm
 APACHE_PHP_UPSTREAM_PORT=9000
 APACHE_PHP_UPSTREAM_TIMEOUT=60
 APACHE_DOCUMENT_ROOT=/var/www/
+APACHE_INSTALL_HTTP2=false
 
 ### MYSQL #################################################
 
@@ -358,6 +375,11 @@ POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
 POSTGRES_ENTRYPOINT_INITDB=./postgres/docker-entrypoint-initdb.d
 
+### SQS ##############################################
+
+SQS_NODE_HOST_PORT=9324
+SQS_MANAGEMENT_HTTP_HOST_PORT=9325
+
 ### RABBITMQ ##############################################
 
 RABBITMQ_NODE_HOST_PORT=5672
@@ -365,6 +387,11 @@ RABBITMQ_MANAGEMENT_HTTP_HOST_PORT=15672
 RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT=15671
 RABBITMQ_DEFAULT_USER=guest
 RABBITMQ_DEFAULT_PASS=guest
+
+### MEILISEARCH ###########################################
+
+MEILISEARCH_HOST_PORT=7700
+MEILISEARCH_KEY=masterkey
 
 ### ELASTICSEARCH #########################################
 
@@ -374,6 +401,10 @@ ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
 ### KIBANA ################################################
 
 KIBANA_HTTP_PORT=5601
+
+### DEJAVU ################################################
+
+DEJAVU_HTTP_PORT=1358
 
 ### MEMCACHED #############################################
 
@@ -399,8 +430,11 @@ MINIO_PORT=9000
 
 ### ADMINER ###############################################
 
-ADM_PORT=8080
+ADM_PORT=8081
 ADM_INSTALL_MSSQL=false
+ADM_PLUGINS=
+ADM_DESIGN=pepa-linha
+ADM_DEFAULT_SERVER=mysql
 
 ### PHP MY ADMIN ##########################################
 
@@ -413,7 +447,7 @@ PMA_DB_ENGINE=mysql
 PMA_USER=default
 PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
-PMA_PORT=8080
+PMA_PORT=8081
 
 ### MAILDEV ###############################################
 
@@ -851,8 +885,8 @@ CASSANDRA_RACK=rack1
 
 # Gearman version to use. See available tags at https://hub.docker.com/r/artefactual/gearmand
 GEARMAN_VERSION=latest
-# Port to use (Default: 6379)
-GEARMAN_PORT=6379
+# Port to use (Default: 4730)
+GEARMAN_PORT=4730
 # Logging Level (Default: INFO)
 GEARMAN_VERBOSE=INFO
 # Persistent queue type to use (Default: builtin)
@@ -893,4 +927,4 @@ GEARMAN_MYSQL_DB=Gearmand
 GEARMAN_MYSQL_TABLE=gearman_queue
 
 ### ELK Stack ##################################################
-ELK_VERSION=7.5.1
+ELK_VERSION=7.9.1
