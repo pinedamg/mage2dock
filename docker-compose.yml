@@ -415,21 +415,21 @@ services:
 
 ### GOACCESS #############################################
 
-  goaccess:
-    image: allinurl/goaccess
-    command: sh -c "apk add --update --no-cache docker && docker service logs -f --raw frontend_apache2 2>&1| goaccess --no-global-config --real-time-html --log-format=COMBINED -"
-    ports:
-      - published: 7890
-        target: 7890
-        protocol: tcp
-        mode: host
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${DATA_PATH_HOST}/goaccess/data:/srv/data
-      - ${DATA_PATH_HOST}/goaccess/report:/srv/report
+#  goaccess:
+#    image: allinurl/goaccess
+#    command: sh -c "apk add --update --no-cache docker && docker service logs -f --raw frontend_apache2 2>&1| goaccess --no-global-config --real-time-html --log-format=COMBINED -"
+#    ports:
+#      - published: 7890
+#        target: 7890
+#        protocol: tcp
+#        mode: host
+#    deploy:
+#      placement:
+#        constraints: [node.role == manager]
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - ${DATA_PATH_HOST}/goaccess/data:/srv/data
+#      - ${DATA_PATH_HOST}/goaccess/report:/srv/report
 
 ### HHVM #################################################
     hhvm:

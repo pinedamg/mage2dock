@@ -115,6 +115,39 @@ alias gbr="git branch"
 alias gc="git commit"
 alias gck="git checkout"
 
+# Magento aliases	
+alias mgbin="./bin/magento"	
+alias mgcache="mgbin cache:flush && mgbin cache:clean; mgchmod"	
+alias mgupg="mgbin setup:upgrade && mgcache"	
+alias mgdi="mgbin setup:di:compile && mgcache"	
+alias mgst="mgbin setup:static-content:deploy && mgcache ; mgchmod"	
+alias mgall="mgcache && mgupg && mgdi && mgst && mgchmod ; mgchmod"	
+alias mgreidx="mgbin indexer:reindex"	
+alias mgmodena="mgbin module:enable"	
+alias mgmoddis="mgbin module:disable"	
+alias mgmodls="mgbin module:status"	
+alias mgoff="mgbin maintenance:enable"	
+alias mgon="mgbin maintenance:disable"	
+alias mgprodrefresh="mgoff ; mgcache ; mgdi ; mgst ; mgon ; mgchmod"	
+
+# XDebug	
+alias xdebug-var='export XDEBUG_CONFIG="idekey=PHPSTORM"'	
+
+#N98 MageRun Aliases	
+if [ -n $INSTALL_N98_MAGERUN ]; then	
+    alias mr="n98-magerun2.phar"	
+    alias mradminreset="mr admin:user:unlock $MAGE_ADMIN_USER && mr admin:user:change-password $MAGE_ADMIN_USER $MAGE_ADMIN_PASS"	
+    alias mradmincreate="mr admin:user:change-password $MAGE_ADMIN_USER $MAGE_ADMIN_PASS $MAGE_ADMIN_EMAIL $MAGE_ADMIN_FIRSTNAME $MAGE_ADMIN_LASTNAME"	
+fi	
+
+# Magento CHMOD	
+function mgchmod() {	
+    find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +	
+    find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +	
+    chmod -R 777 app/etc/	
+    chown -R laradock:laradock .	
+}
+
 # Create a new directory and enter it
 function mkd() {
     mkdir -p "$@" && cd "$@"
